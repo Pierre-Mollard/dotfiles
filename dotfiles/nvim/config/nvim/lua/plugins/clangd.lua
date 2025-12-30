@@ -1,5 +1,5 @@
 return {
-  -- override nvim-lspconfig clangd only (keeps everything else)
+  -- override nvim-lspconfig clangd only (keeps everything else) (for esp-clang)
   {
     "neovim/nvim-lspconfig",
     ---@class PluginLspOpts

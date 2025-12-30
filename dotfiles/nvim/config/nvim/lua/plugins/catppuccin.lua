@@ -1,7 +1,4 @@
 return {
-  -- add catppuccin
-  -- { "catppuccin" },
-
   -- Configure LazyVim to load catppuccin
   {
     "LazyVim/LazyVim",
