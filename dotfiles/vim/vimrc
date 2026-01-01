@@ -18,6 +18,14 @@ colorscheme habamax      " Reliable dark builtin
 hi Normal ctermbg=NONE  " Transparent fallback
 hi Search ctermfg=Black
 
+" Transparent background
+highlight Normal guibg=NONE ctermbg=NONE
+highlight NonText guibg=NONE ctermbg=NONE
+highlight NormalNC guibg=NONE ctermbg=NONE
+highlight LineNr guibg=NONE
+highlight Folded guibg=NONE
+highlight EndOfBuffer guibg=NONE
+
 syntax on
 set cursorline
 
