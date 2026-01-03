@@ -14,17 +14,18 @@ set sidescrolloff=5
 
 set mouse=a
 set termguicolors      " Add this for truecolor if terminal supports
-colorscheme habamax      " Reliable dark builtin
+" colorscheme habamax      " Reliable dark builtin
+colorscheme catppuccin_frappe      " Reliable dark builtin
 hi Normal ctermbg=NONE  " Transparent fallback
 hi Search ctermfg=Black
 
 " Transparent background
-highlight Normal guibg=NONE ctermbg=NONE
-highlight NonText guibg=NONE ctermbg=NONE
-highlight NormalNC guibg=NONE ctermbg=NONE
-highlight LineNr guibg=NONE
-highlight Folded guibg=NONE
-highlight EndOfBuffer guibg=NONE
+"highlight Normal guibg=NONE ctermbg=NONE
+"highlight NonText guibg=NONE ctermbg=NONE
+"highlight NormalNC guibg=NONE ctermbg=NONE
+"highlight LineNr guibg=NONE
+"highlight Folded guibg=NONE
+"highlight EndOfBuffer guibg=NONE
 
 syntax on
 set cursorline
