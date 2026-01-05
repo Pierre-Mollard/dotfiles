@@ -19,7 +19,7 @@ vim.api.nvim_create_autocmd('User', {
         location = 'parser',
         generate = true,
         generate_from_json = false,
-        queries = 'queries/neovim', -- symlink queries from given directory
+        queries = 'queries/ptuscript',
       },
     }
   end
