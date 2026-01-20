@@ -57,4 +57,4 @@ TODO: cleanup and add tmux plugin files (manual for now: https://github.com/catp
 ## Windows Terminal setup
 
 Background color with tokyonight : #16161e
-
+Configuration source: https://github.com/jiyometrik/tokyonight-windows-terminal/tree/master 
