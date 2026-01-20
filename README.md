@@ -54,3 +54,7 @@ TODO: add all deps for offline components like lazyvim with C/C++ LSP servers.
 TODO: conf tmux more effecient
 TODO: cleanup and add tmux plugin files (manual for now: https://github.com/catppuccin/tmux)
 
+## Windows Terminal setup
+
+Background color with tokyonight : #16161e
+
