@@ -7,6 +7,8 @@ DOTFILES="$SCRIPT_DIR/../dotfiles"
 mkdir -p ~/.config
 mkdir -p ~/.config/tmux
 mkdir -p ~/.config/tmux/plugins
+mkdir -p ~/.config/tmux/plugins/pmo
+mkdir -p ~/.config/tmux/plugins/pmo/themes
 mkdir -p ~/.config/nvim
 mkdir -p ~/.tmux
 mkdir -p ~/.vim
@@ -17,10 +19,15 @@ ln -sf $DOTFILES/vim/vim/colors/catppuccin_frappe.vim ~/.vim/colors/catppuccin_f
 ln -sf $DOTFILES/tmux/tmux.conf ~/.tmux.conf
 ln -sf $DOTFILES/git/gitconfig ~/.gitconfig
 
-if [ ! -d ~/.config/tmux/plugins/catppuccin ]; then
-  mkdir -p ~/.config/tmux/plugins/catppuccin
-  git clone -b v2.1.3 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux
-fi
+ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/README.md ~/.config/tmux/plugins/pmo/README.md
+ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/pmo.tmux ~/.config/tmux/plugins/pmo/pmo.tmux
+ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/pmo_options_tmux.conf ~/.config/tmux/plugins/pmo/pmo_options_tmux.conf
+ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/pmo_tmux.conf ~/.config/tmux/plugins/pmo/pmo_tmux.conf
+ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/catppuccin_frappe_tmux.conf ~/.config/tmux/plugins/pmo/themes/catppuccin_frappe_tmux.conf
+ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/catppuccin_latte_tmux.conf  ~/.config/tmux/plugins/pmo/themes/catppuccin_latte_tmux.conf
+ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/catppuccin_macchiato_tmux.conf ~/.config/tmux/plugins/pmo/themes/catppuccin_macchiato_tmux.conf
+ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/catppuccin_mocha_tmux.conf ~/.config/tmux/plugins/pmo/themes/catppuccin_mocha_tmux.conf
+ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/tokyonight-night_tmux.conf ~/.config/tmux/plugins/pmo/themes/tokyonight-night_tmux.conf
 
 cp -rf $DOTFILES/nvim/config/* ~/.config
 
