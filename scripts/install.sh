@@ -23,8 +23,9 @@ ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/README.md ~/.config/tmux/plugins/p
 ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/pmo.tmux ~/.config/tmux/plugins/pmo/pmo.tmux
 ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/pmo_options_tmux.conf ~/.config/tmux/plugins/pmo/pmo_options_tmux.conf
 ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/pmo_tmux.conf ~/.config/tmux/plugins/pmo/pmo_tmux.conf
+ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/pmo_post_tmux.conf ~/.config/tmux/plugins/pmo/pmo_post_tmux.conf
 ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/catppuccin_frappe_tmux.conf ~/.config/tmux/plugins/pmo/themes/catppuccin_frappe_tmux.conf
-ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/catppuccin_latte_tmux.conf  ~/.config/tmux/plugins/pmo/themes/catppuccin_latte_tmux.conf
+ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/catppuccin_latte_tmux.conf ~/.config/tmux/plugins/pmo/themes/catppuccin_latte_tmux.conf
 ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/catppuccin_macchiato_tmux.conf ~/.config/tmux/plugins/pmo/themes/catppuccin_macchiato_tmux.conf
 ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/catppuccin_mocha_tmux.conf ~/.config/tmux/plugins/pmo/themes/catppuccin_mocha_tmux.conf
 ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/tokyonight-night_tmux.conf ~/.config/tmux/plugins/pmo/themes/tokyonight-night_tmux.conf
