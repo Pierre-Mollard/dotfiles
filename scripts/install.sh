@@ -13,9 +13,12 @@ mkdir -p ~/.config/nvim
 mkdir -p ~/.config/nvim-lite
 mkdir -p ~/.config/nvim-lite/lua
 mkdir -p ~/.config/nvim-lite/lua/lite
+mkdir -p ~/.config/nvim-lite/lua/lite/plugins
+mkdir -p ~/.config/nvim-lite/after/plugin/
 mkdir -p ~/.tmux
 mkdir -p ~/.vim
 mkdir -p ~/.vim/colors
+mkdir -p ~/.local/share/nvim-lite/site/pack/colors/start/tokyonight.nvim
 
 ln -sf $DOTFILES/vim/vimrc ~/.vimrc
 ln -sf $DOTFILES/vim/vim/colors/catppuccin_frappe.vim ~/.vim/colors/catppuccin_frappe.vim
@@ -41,6 +44,13 @@ ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/commands.lua ~/.config/nvim-lite
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/keymaps.lua ~/.config/nvim-lite/lua/lite/keymaps.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/options.lua ~/.config/nvim-lite/lua/lite/options.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/init.lua ~/.config/nvim-lite/lua/lite/init.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/plugins/init.lua ~/.config/nvim-lite/lua/lite/plugins/init.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/after/plugin/tokyonight.lua ~/.config/nvim-lite/after/plugin/tokyonight.lua
+
+dir="$HOME/.local/share/nvim-lite/site/pack/colors/start/tokyonight.nvim/"
+if [ -d $dir ] && [ -z "$(ls -A "$dir")" ]; then
+  git clone https://github.com/folke/tokyonight.nvim "$dir"
+fi
 
 #TODO: automate with loop, make bash distro aware, handle the clangd special conf for esp idf.
 #TODO: maybe remove the double software name in this repo /dotfiles?
