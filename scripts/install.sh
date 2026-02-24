@@ -10,6 +10,9 @@ mkdir -p ~/.config/tmux/plugins
 mkdir -p ~/.config/tmux/plugins/pmo
 mkdir -p ~/.config/tmux/plugins/pmo/themes
 mkdir -p ~/.config/nvim
+mkdir -p ~/.config/nvim-lite
+mkdir -p ~/.config/nvim-lite/lua
+mkdir -p ~/.config/nvim-lite/lua/lite
 mkdir -p ~/.tmux
 mkdir -p ~/.vim
 mkdir -p ~/.vim/colors
@@ -29,7 +32,10 @@ ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/catppuccin_macchiato_tmux.c
 ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/catppuccin_mocha_tmux.conf ~/.config/tmux/plugins/pmo/themes/catppuccin_mocha_tmux.conf
 ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/tokyonight-night_tmux.conf ~/.config/tmux/plugins/pmo/themes/tokyonight-night_tmux.conf
 
-cp -rf $DOTFILES/nvim/config/* ~/.config
+cp -rf $DOTFILES/nvim/config/nvim ~/.config/nvim/
+
+ln -sf $DOTFILES/nvim/config/nvim-lite/init.lua ~/.config/nvim-lite/init.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/reload.lua ~/.config/nvim-lite/lua/lite/reload.lua
 
 #TODO: automate with loop, make bash distro aware, handle the clangd special conf for esp idf.
 #TODO: maybe remove the double software name in this repo /dotfiles?
