@@ -36,6 +36,11 @@ cp -rf $DOTFILES/nvim/config/nvim ~/.config/nvim/
 
 ln -sf $DOTFILES/nvim/config/nvim-lite/init.lua ~/.config/nvim-lite/init.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/reload.lua ~/.config/nvim-lite/lua/lite/reload.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/autocmds.lua ~/.config/nvim-lite/lua/lite/autocmds.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/commands.lua ~/.config/nvim-lite/lua/lite/commands.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/keymaps.lua ~/.config/nvim-lite/lua/lite/keymaps.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/options.lua ~/.config/nvim-lite/lua/lite/options.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/init.lua ~/.config/nvim-lite/lua/lite/init.lua
 
 #TODO: automate with loop, make bash distro aware, handle the clangd special conf for esp idf.
 #TODO: maybe remove the double software name in this repo /dotfiles?
