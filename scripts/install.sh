@@ -38,6 +38,7 @@ ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/tokyonight-night_tmux.conf 
 cp -rf $DOTFILES/nvim/config/nvim ~/.config/nvim/
 
 ln -sf $DOTFILES/nvim/config/nvim-lite/init.lua ~/.config/nvim-lite/init.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/plugins.lua ~/.config/nvim-lite/lua/lite/plugins.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/reload.lua ~/.config/nvim-lite/lua/lite/reload.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/autocmds.lua ~/.config/nvim-lite/lua/lite/autocmds.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/commands.lua ~/.config/nvim-lite/lua/lite/commands.lua
