@@ -13,7 +13,7 @@ mkdir -p ~/.config/nvim
 mkdir -p ~/.config/nvim-lite
 mkdir -p ~/.config/nvim-lite/lua
 mkdir -p ~/.config/nvim-lite/lua/lite
-mkdir -p ~/.config/nvim-lite/lua/lite/plugins
+mkdir -p ~/.config/nvim-lite/lua/plugins
 mkdir -p ~/.config/nvim-lite/after/plugin/
 mkdir -p ~/.tmux
 mkdir -p ~/.vim
@@ -38,14 +38,14 @@ ln -sf $DOTFILES/tmux/config/tmux/plugins/pmo/themes/tokyonight-night_tmux.conf 
 cp -rf $DOTFILES/nvim/config/nvim ~/.config/nvim/
 
 ln -sf $DOTFILES/nvim/config/nvim-lite/init.lua ~/.config/nvim-lite/init.lua
-ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/plugins.lua ~/.config/nvim-lite/lua/lite/plugins.lua
-ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/reload.lua ~/.config/nvim-lite/lua/lite/reload.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/autocmds.lua ~/.config/nvim-lite/lua/lite/autocmds.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/commands.lua ~/.config/nvim-lite/lua/lite/commands.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/keymaps.lua ~/.config/nvim-lite/lua/lite/keymaps.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/options.lua ~/.config/nvim-lite/lua/lite/options.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/init.lua ~/.config/nvim-lite/lua/lite/init.lua
-ln -sf $DOTFILES/nvim/config/nvim-lite/lua/lite/plugins/init.lua ~/.config/nvim-lite/lua/lite/plugins/init.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/plugins/init.lua ~/.config/nvim-lite/lua/plugins/init.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/plugins/snacks.lua ~/.config/nvim-lite/lua/plugins/snacks.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/plugins/tokyonight.lua ~/.config/nvim-lite/lua/plugins/tokyonight.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/after/plugin/tokyonight.lua ~/.config/nvim-lite/after/plugin/tokyonight.lua
 
 dir="$HOME/.local/share/nvim-lite/site/pack/colors/start/tokyonight.nvim/"
