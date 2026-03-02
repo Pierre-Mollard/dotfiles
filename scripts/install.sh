@@ -47,6 +47,7 @@ ln -sf $DOTFILES/nvim/config/nvim-lite/lua/plugins/init.lua ~/.config/nvim-lite/
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/plugins/snacks.lua ~/.config/nvim-lite/lua/plugins/snacks.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/plugins/tokyonight.lua ~/.config/nvim-lite/lua/plugins/tokyonight.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/lua/plugins/which-key.lua ~/.config/nvim-lite/lua/plugins/which-key.lua
+ln -sf $DOTFILES/nvim/config/nvim-lite/lua/plugins/bufferline.lua ~/.config/nvim-lite/lua/plugins/bufferline.lua
 ln -sf $DOTFILES/nvim/config/nvim-lite/after/plugin/tokyonight.lua ~/.config/nvim-lite/after/plugin/tokyonight.lua
 
 dir="$HOME/.local/share/nvim-lite/site/pack/colors/start/tokyonight.nvim/"

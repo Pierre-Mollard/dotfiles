@@ -3,4 +3,5 @@ return {
 	require("plugins.tokyonight"),
 	require("plugins.snacks"),
 	require("plugins.which-key"),
+	require("plugins.bufferline"),
 }
