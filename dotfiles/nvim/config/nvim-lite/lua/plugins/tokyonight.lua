@@ -7,4 +7,6 @@ M.spec = {
 
 function M.config() end
 
+M.keys = {}
+
 return M
