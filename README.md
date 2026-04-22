@@ -12,19 +12,23 @@ Careful, some bashrc like omarchy source the main configuration themselves.
 
 This is how the dotfiles are mapped from this repo to the new environmemt: 
 
-dotfiles/
+stow/
 ├── bash/
-│   └── bashrc           # → ~/.bashrc
+│   └── dot-bashrc           # → ~/.bashrc
 ├── git/
-│   └── gitconfig        # → ~/.gitconfig
+│   └── dot-gitconfig        # → ~/.gitconfig
 ├── vim/
-│   └── vimrc            # → ~/.vimrc
+│   └── dot-vimrc            # → ~/.vimrc
 ├── nvim/
-│   └── config/
+│   └── dot-config/
 │       └── nvim/        # → ~/.config/nvim/
 └── tmux/
-    └── config/
+    └── dot-config/
         └── tmux/        # → ~/.config/tmux/
+
+Using stow, all the package inside this directory will be symlink to HOME (~/). 
+All dot-name will be converted to .name by stow using the --dotefiles argument.
+(not working so keeping .config)
 
 ## Keys Handling
 
@@ -47,6 +51,7 @@ If you clone this repo with HTTPS, use the script `scripts/git_repo_ssh.sh` to r
 ## List of all deps recommended for a WSL or any Linux env
 
 gperf python3 python3-pip python3-venv cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
+stow
 
 ## Offlines
 
