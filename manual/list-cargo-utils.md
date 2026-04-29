@@ -10,3 +10,4 @@
 - difftastic
 - felix
 - skim (replace fzf)
+- zellij

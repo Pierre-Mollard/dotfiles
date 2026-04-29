@@ -6,7 +6,7 @@ PROJECT_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 DOTFILES_DIR="$PROJECT_DIR/stow"
 TARGET_DIR="${HOME}"
 
-stow --dir="$DOTFILES_DIR" --target="$TARGET_DIR" git tmux vim nvim
+stow --dir="$DOTFILES_DIR" --target="$TARGET_DIR" git tmux vim nvim zellij
 
 # NOTE: bash file are meant to be cherry-pick by hand based on local configuration
 
