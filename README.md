@@ -1,4 +1,3 @@
-# Tutorial to setup configurations to workspace
 
 ## Dotfiles
 
@@ -55,9 +54,13 @@ stow
 
 ## Offlines
 
-TODO: add all deps for offline components like lazyvim with C/C++ LSP servers.
-TODO: conf tmux more effecient
-TODO: cleanup and add tmux plugin files (manual for now: https://github.com/catppuccin/tmux)
+- [ ] add all deps for offline components like lazyvim with C/C++ LSP servers.
+- [ ] conf tmux more effecient
+- [ ] cleanup and add tmux plugin files (manual for now: https://github.com/catppuccin/tmux)
+
+TODO: 2
+- [ ] setup colortheme for all rust utils? (check if possible)
+- [ ] setup zellij conf like tmux
 
 ## Windows Terminal setup
 

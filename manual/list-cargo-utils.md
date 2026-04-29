@@ -10,4 +10,5 @@
 - difftastic
 - felix
 - skim (replace fzf)
+- ascinema
 - zellij
