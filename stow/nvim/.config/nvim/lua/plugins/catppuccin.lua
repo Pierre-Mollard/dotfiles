@@ -1,19 +1,11 @@
--- disabled (using tokyo-night)
-if true then
-  return {
-    {
-      "LazyVim/LazyVim",
-      opts = {
-        colorscheme = "tokyonight-night",
-      },
-    },
-  }
-end
+-- This is the default theme at loading time, it can be changed with <leader>uC
+local use_catppuccin_transparent = true
 
 return {
   -- Configure catppuccin to be transparent
   {
     "catppuccin",
+    disabled = use_catppuccin_transparent == false,
     priority = 1000,
     opts = {
       lsp_styles = {
@@ -31,6 +23,7 @@ return {
           NormalFloat = { bg = "NONE" },
           FloatBorder = { bg = "NONE" },
           FloatTitle = { bg = "NONE" },
+          CursorLine = { bg = "NONE" },
           -- Lazy.nvim specific
           LazyNormal = { bg = "NONE" },
           MasonNormal = { bg = "NONE" },
@@ -72,7 +65,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin-frappe",
+      colorscheme = use_catppuccin_transparent and "catppuccin-frappe" or "tokyonight-night",
     },
   },
 }
