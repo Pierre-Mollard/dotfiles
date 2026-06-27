@@ -1,6 +1,6 @@
 local themes = {
-  catppuccin = true,
-  tokyonight = false,
+  catppuccin = false,
+  tokyonight = true,
   rose_pine = false,
   cyberdream = false,
   kanagawa = false,
@@ -10,7 +10,7 @@ local themes = {
   neosolarized = false,
 }
 
-vim.g.transparent_enabled = true
+vim.g.transparent_enabled = true -- Keep track of state globally so we can toggle
 
 local function current_colorscheme()
   return themes.catppuccin and "catppuccin-frappe"
@@ -25,131 +25,298 @@ local function current_colorscheme()
     or "tokyonight-night"
 end
 
-local function bg_none_if_transparent()
-  return vim.g.transparent_enabled and "NONE" or nil
-end
-
 return {
+  -- 1. Global Transparency Toggle
+  {
+    "xiyaowong/transparent.nvim",
+    lazy = false,
+    keys = {
+      {
+        "<leader>ut",
+        function()
+          vim.g.transparent_enabled = not vim.g.transparent_enabled
+          local is_transparent = vim.g.transparent_enabled
+
+          if is_transparent then
+            vim.cmd("TransparentEnable")
+          else
+            vim.cmd("TransparentDisable")
+          end
+
+          local active_theme = vim.g.colors_name
+
+          if active_theme and active_theme:match("catppuccin") then
+            local cat = require("catppuccin")
+            cat.options.transparent_background = is_transparent
+            cat.compile()
+          elseif active_theme and active_theme:match("tokyonight") then
+            local theme_opts = require("tokyonight.config").options
+            theme_opts.transparent = is_transparent
+            require("tokyonight").setup(theme_opts)
+          elseif active_theme and active_theme:match("cyberdream") then
+            require("cyberdream").setup({ transparent = is_transparent })
+          elseif active_theme and active_theme:match("kanagawa") then
+            require("kanagawa").setup({ transparent = is_transparent })
+          elseif active_theme and active_theme:match("everforest") then
+            vim.g.everforest_transparent_background = is_transparent and 2 or 0
+          elseif active_theme and active_theme:match("gruvbox") then
+            require("gruvbox").setup({ transparent_mode = is_transparent })
+          end
+
+          vim.cmd("colorscheme " .. current_colorscheme())
+
+          local has_lualine, lualine = pcall(require, "lualine")
+          if has_lualine then
+            lualine.setup({ options = { theme = "auto" } })
+          end
+
+          local has_bufferline, bufferline = pcall(require, "bufferline")
+          if has_bufferline then
+            vim.api.nvim_exec_autocmds("ColorScheme", { pattern = "*" })
+            if is_transparent then
+              vim.cmd([[
+                hi BufferLineFill guibg=NONE ctermbg=NONE
+                hi BufferLineBackground guibg=NONE ctermbg=NONE
+              ]])
+            end
+          end
+        end,
+        desc = "Toggle Transparency",
+      },
+    },
+    opts = {
+      extra_groups = {
+        "NormalFloat",
+        "FloatTitle",
+        "TelescopeNormal",
+        "TelescopePromptNormal",
+        "TelescopeResultsNormal",
+        "TelescopePreviewNormal",
+        "NeoTreeNormal",
+        "NeoTreeNormalNC",
+        "NeoTreeFloatNormal",
+        "NeoTreeFloatTitle",
+        "NeoTreeFloatBorder",
+        "NeoTreeFilter",
+        "Pmenu",
+        "BlinkCmpMenu",
+        "BlinkCmpMenuBorder",
+        "BlinkCmpDoc",
+        "BlinkCmpDocBorder",
+        "BlinkCmpSignatureHelpBorder",
+        "SignColumn",
+        "CursorLineNr",
+        "LineNr",
+        "FoldColumn",
+        "WhichKeyFloat",
+        "LspInfoBorder",
+        "LazyNormal",
+        "MasonNormal",
+        "FloatBorder",
+        "TelescopeBorder",
+        "TelescopePromptBorder",
+        "TelescopeResultsBorder",
+        "TelescopePreviewBorder",
+        "PmenuSel",
+        "CursorLine",
+        "SnacksPickerNormal",
+        "SnacksPickerBorder",
+        "SnacksPickerInput",
+        "SnacksPickerInputBorder",
+        "SnacksPickerList",
+        "SnacksPickerListBorder",
+        "SnacksPickerPreview",
+        "SnacksPickerPreviewBorder",
+        "NoiceCmdlinePopup",
+        "NoiceCmdlinePopupBorder",
+        "NoiceConfirm",
+        "NoiceConfirmBorder",
+        "NoiceMini",
+        "WhichKey",
+        "WhichKeyNormal",
+        "WhichKeyBorder",
+        "WhichKeyTitle",
+      },
+      exclude_groups = {},
+    },
+    config = function(_, opts)
+      local transparent = require("transparent")
+      transparent.setup(opts)
+      transparent.clear_prefix("NeoTree")
+
+      if vim.g.transparent_enabled then
+        vim.cmd("TransparentEnable")
+      else
+        vim.cmd("TransparentDisable")
+      end
+    end,
+  },
+
+  -- 2. Set the LazyVim colorscheme
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = current_colorscheme(),
+    },
+  },
+
+  -- 3. Force Borders on UI Elements
+  {
+    "mason-org/mason.nvim",
+    opts = { ui = { border = "rounded" } },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    opts = function(_, opts)
+      opts.diagnostics = opts.diagnostics or {}
+      opts.diagnostics.float = opts.diagnostics.float or {}
+      opts.diagnostics.float.border = "rounded"
+    end,
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    optional = true,
+    opts = {
+      defaults = {
+        winblend = 0,
+        border = true,
+        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+      },
+    },
+  },
+  {
+    "folke/noice.nvim",
+    optional = true,
+    opts = {
+      presets = { lsp_doc_border = true, cmdline_output_to_split = false },
+      views = {
+        cmdline_popup = { border = { style = "rounded" } },
+        hover = { border = { style = "rounded" } },
+      },
+    },
+  },
+  {
+    "saghen/blink.cmp",
+    optional = true,
+    opts = {
+      completion = {
+        menu = { border = "rounded", winblend = 0 },
+        documentation = { window = { border = "rounded", winblend = 0 } },
+      },
+      signature = { window = { border = "rounded", winblend = 0 } },
+    },
+  },
+
+  -- 4. Themes
   {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = true,
-    priority = 1000,
-    opts = {
-      transparent_background = vim.g.transparent_enabled,
-      term_colors = true,
-      no_italic = false,
-      no_bold = false,
-      styles = {
-        comments = { "italic" },
-        conditionals = { "italic" },
-      },
-      integrations = {
-        aerial = true,
-        alpha = true,
-        blink_cmp = true,
-        cmp = true,
-        dashboard = true,
-        flash = true,
-        fzf = true,
-        gitsigns = true,
-        grug_far = true,
-        headlines = true,
-        illuminate = true,
-        indent_blankline = { enabled = true },
-        leap = true,
-        lsp_trouble = true,
-        mason = true,
-        mini = true,
-        native_lsp = {
-          enabled = true,
-          underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
-          },
+    opts = function()
+      return {
+        transparent_background = vim.g.transparent_enabled,
+        term_colors = true,
+        integrations = {
+          aerial = true,
+          alpha = true,
+          blink_cmp = true,
+          cmp = true,
+          dashboard = true,
+          flash = true,
+          fzf = true,
+          gitsigns = true,
+          headlines = true,
+          illuminate = true,
+          indent_blankline = { enabled = true },
+          leap = true,
+          mason = true,
+          mini = true,
+          native_lsp = { enabled = true, underlines = { errors = { "undercurl" } } },
+          navic = { enabled = true, custom_bg = "lualine" },
+          neotree = true,
+          noice = true,
+          notify = true,
+          snacks = true,
+          telescope = true,
+          treesitter = true,
+          which_key = true,
         },
-        navic = { enabled = true, custom_bg = "lualine" },
-        neotest = true,
-        neotree = true,
-        noice = true,
-        notify = true,
-        snacks = true,
-        telescope = true,
-        treesitter = true,
-        treesitter_context = true,
-        which_key = true,
-      },
-      custom_highlights = function(colors)
-        local transparent = vim.g.transparent_enabled
-        return {
-          Normal = { bg = transparent and "NONE" or colors.base },
-          NormalNC = { bg = transparent and "NONE" or colors.base },
-          SignColumn = { bg = transparent and "NONE" or colors.base },
-          EndOfBuffer = { bg = transparent and "NONE" or colors.base },
-          LineNr = { bg = transparent and "NONE" or colors.base },
-          CursorLineNr = { bg = transparent and "NONE" or colors.base },
-          NormalFloat = { bg = transparent and "NONE" or colors.mantle },
-          FloatBorder = { bg = transparent and "NONE" or colors.mantle },
-          FloatTitle = { bg = transparent and "NONE" or colors.mantle },
-          CursorLine = { bg = transparent and "NONE" or colors.surface0 },
-          Pmenu = { bg = transparent and "NONE" or colors.mantle },
-          PmenuSel = { bg = colors.surface1, fg = colors.text },
-          StatusLine = { bg = transparent and "NONE" or colors.mantle },
-          StatusLineNC = { bg = transparent and "NONE" or colors.mantle },
-          WinSeparator = { bg = "NONE" },
-          VertSplit = { bg = "NONE" },
-          FoldColumn = { bg = transparent and "NONE" or colors.base },
-          LazyNormal = { bg = transparent and "NONE" or colors.base },
-          MasonNormal = { bg = transparent and "NONE" or colors.base },
-          TelescopeNormal = { bg = transparent and "NONE" or colors.base },
-          TelescopeBorder = { bg = transparent and "NONE" or colors.base },
-          TelescopePromptNormal = { bg = transparent and "NONE" or colors.mantle },
-          TelescopePromptBorder = { bg = transparent and "NONE" or colors.mantle },
-          TelescopeResultsNormal = { bg = transparent and "NONE" or colors.base },
-          TelescopeResultsBorder = { bg = transparent and "NONE" or colors.base },
-          TelescopePreviewNormal = { bg = transparent and "NONE" or colors.base },
-          TelescopePreviewBorder = { bg = transparent and "NONE" or colors.base },
-        }
-      end,
-    },
+      }
+    end,
   },
 
   {
     "folke/tokyonight.nvim",
     lazy = true,
-    priority = 1000,
     opts = function()
       return {
         transparent = vim.g.transparent_enabled,
-        styles = {
-          sidebars = vim.g.transparent_enabled and "transparent" or "dark",
-          floats = vim.g.transparent_enabled and "transparent" or "dark",
-        },
+        styles = { sidebars = "dark", floats = "dark" },
+        on_colors = function(colors)
+          if vim.g.transparent_enabled then
+            colors.bg_statusline = colors.none
+          end
+        end,
         on_highlights = function(hl, c)
-          local transparent = vim.g.transparent_enabled
-          hl.Normal = { bg = transparent and "NONE" or c.bg }
-          hl.NormalNC = { bg = transparent and "NONE" or c.bg }
-          hl.SignColumn = { bg = transparent and "NONE" or c.bg }
-          hl.EndOfBuffer = { bg = transparent and "NONE" or c.bg }
-          hl.LineNr = { bg = transparent and "NONE" or c.bg }
-          hl.CursorLineNr = { bg = transparent and "NONE" or c.bg }
-          hl.NormalFloat = { bg = transparent and "NONE" or c.bg_dark }
-          hl.FloatBorder = { bg = transparent and "NONE" or c.bg_dark }
-          hl.FloatTitle = { bg = transparent and "NONE" or c.bg_dark }
-          hl.CursorLine = { bg = transparent and "NONE" or c.bg_highlight }
-          hl.Pmenu = { bg = transparent and "NONE" or c.bg_dark }
-          hl.PmenuSel = { bg = c.bg_highlight, fg = c.fg }
-          hl.StatusLine = { bg = transparent and "NONE" or c.bg_statusline }
-          hl.StatusLineNC = { bg = transparent and "NONE" or c.bg_statusline }
-          hl.WinSeparator = { bg = "NONE" }
-          hl.VertSplit = { bg = "NONE" }
-          hl.FoldColumn = { bg = transparent and "NONE" or c.bg }
-          hl.LazyNormal = { bg = transparent and "NONE" or c.bg }
-          hl.MasonNormal = { bg = transparent and "NONE" or c.bg }
-          hl.TelescopeNormal = { bg = transparent and "NONE" or c.bg_dark }
-          hl.TelescopeBorder = { bg = transparent and "NONE" or c.bg_dark }
+          if vim.g.transparent_enabled then
+            -- 1. General Floats
+            hl.NormalFloat = { bg = "NONE" }
+            hl.FloatBorder = { fg = c.border_highlight, bg = "NONE" }
+            hl.FloatTitle = { fg = c.orange, bg = "NONE" }
+            hl.Pmenu = { bg = "NONE" }
+
+            -- 2. Split Lines
+            hl.WinSeparator = { fg = c.border_highlight, bg = "NONE" }
+            hl.VertSplit = { fg = c.border_highlight, bg = "NONE" }
+
+            -- 3. Telescope
+            hl.TelescopeNormal = { bg = "NONE" }
+            hl.TelescopeBorder = { fg = c.border_highlight, bg = "NONE" }
+            hl.TelescopePromptBorder = { fg = c.orange, bg = "NONE" }
+            hl.TelescopePromptTitle = { fg = c.orange, bg = "NONE" }
+
+            -- 4. Snacks Picker (<space><space> window)
+            hl.SnacksPickerNormal = { bg = "NONE" }
+            hl.SnacksPickerBorder = { fg = c.border_highlight, bg = "NONE" }
+            hl.SnacksPickerTitle = { fg = c.orange, bg = "NONE" }
+
+            hl.SnacksPickerInput = { bg = "NONE" }
+            hl.SnacksPickerInputBorder = { fg = c.orange, bg = "NONE" }
+            hl.SnacksPickerInputTitle = { fg = c.orange, bg = "NONE" }
+
+            hl.SnacksPickerList = { bg = "NONE" }
+            hl.SnacksPickerListBorder = { fg = c.border_highlight, bg = "NONE" }
+
+            hl.SnacksPickerPreview = { bg = "NONE" }
+            hl.SnacksPickerPreviewBorder = { fg = c.border_highlight, bg = "NONE" }
+
+            -- 5. NeoTree (Explorer)
+            hl.NeoTreeFloatNormal = { bg = "NONE" }
+            hl.NeoTreeFloatBorder = { fg = c.border_highlight, bg = "NONE" }
+            hl.NeoTreeFloatTitle = { fg = c.orange, bg = "NONE" }
+
+            hl.NeoTreeFilter = { bg = "NONE" }
+            hl.NeoTreeFilterBorder = { fg = c.orange, bg = "NONE" }
+
+            -- 6. Blink Dropdowns
+            hl.BlinkCmpMenuBorder = { fg = c.border_highlight, bg = "NONE" }
+            hl.BlinkCmpDocBorder = { fg = c.border_highlight, bg = "NONE" }
+            hl.BlinkCmpSignatureHelpBorder = { fg = c.border_highlight, bg = "NONE" }
+
+            -- 7. Noice (Command Line & Messages)
+            hl.NoiceCmdlinePopup = { bg = "NONE" }
+            hl.NoiceCmdlinePopupBorder = { fg = c.border_highlight, bg = "NONE" }
+            hl.NoiceCmdlinePopupTitle = { fg = c.orange, bg = "NONE" }
+            hl.NoiceConfirm = { bg = "NONE" }
+            hl.NoiceConfirmBorder = { fg = c.border_highlight, bg = "NONE" }
+            -- Noice 'mini' messages (bottom right corners) [web:956]
+            hl.NoiceMini = { bg = "NONE" }
+
+            -- 8. WhichKey (Bottom keybind popup)
+            hl.WhichKeyFloat = { bg = "NONE" }
+            hl.WhichKeyBorder = { fg = c.border_highlight, bg = "NONE" }
+            hl.WhichKeyTitle = { fg = c.orange, bg = "NONE" }
+          end
         end,
       }
     end,
@@ -159,325 +326,50 @@ return {
     "rose-pine/neovim",
     name = "rose-pine",
     lazy = true,
-    priority = 1000,
     opts = function()
-      local transparent = vim.g.transparent_enabled
-      return {
-        styles = {
-          transparency = transparent,
-        },
-        highlight_groups = {
-          Normal = { bg = transparent and "NONE" or "base" },
-          NormalNC = { bg = transparent and "NONE" or "base" },
-          SignColumn = { bg = transparent and "NONE" or "base" },
-          EndOfBuffer = { bg = transparent and "NONE" or "base" },
-          LineNr = { bg = transparent and "NONE" or "base" },
-          CursorLineNr = { bg = transparent and "NONE" or "base" },
-          NormalFloat = { bg = transparent and "NONE" or "surface" },
-          FloatBorder = { bg = transparent and "NONE" or "surface" },
-          FloatTitle = { bg = transparent and "NONE" or "surface" },
-          CursorLine = { bg = transparent and "NONE" or "highlight_med" },
-          Pmenu = { bg = transparent and "NONE" or "surface" },
-          StatusLine = { bg = transparent and "NONE" or "surface" },
-          StatusLineNC = { bg = transparent and "NONE" or "surface" },
-          WinSeparator = { bg = "NONE" },
-          VertSplit = { bg = "NONE" },
-          FoldColumn = { bg = transparent and "NONE" or "base" },
-          TelescopeNormal = { bg = transparent and "NONE" or "base" },
-          TelescopeBorder = { bg = transparent and "NONE" or "base" },
-        },
-      }
+      return { styles = { transparency = vim.g.transparent_enabled } }
     end,
   },
-
   {
     "scottmckendry/cyberdream.nvim",
     lazy = true,
-    priority = 1000,
     opts = function()
-      local transparent = vim.g.transparent_enabled
-      return {
-        transparent = transparent,
-        italic_comments = true,
-        hide_fillchars = true,
-        borderless_pickers = false,
-        terminal_colors = true,
-        highlights = {
-          Normal = { bg = transparent and "NONE" or nil },
-          NormalNC = { bg = transparent and "NONE" or nil },
-          SignColumn = { bg = transparent and "NONE" or nil },
-          EndOfBuffer = { bg = transparent and "NONE" or nil },
-          LineNr = { bg = transparent and "NONE" or nil },
-          CursorLineNr = { bg = transparent and "NONE" or nil },
-          NormalFloat = { bg = transparent and "NONE" or nil },
-          FloatBorder = { bg = transparent and "NONE" or nil },
-          FloatTitle = { bg = transparent and "NONE" or nil },
-          CursorLine = { bg = transparent and "NONE" or nil },
-          Pmenu = { bg = transparent and "NONE" or nil },
-          StatusLine = { bg = transparent and "NONE" or nil },
-          StatusLineNC = { bg = transparent and "NONE" or nil },
-          WinSeparator = { bg = "NONE" },
-          VertSplit = { bg = "NONE" },
-          FoldColumn = { bg = transparent and "NONE" or nil },
-          TelescopeNormal = { bg = transparent and "NONE" or nil },
-          TelescopeBorder = { bg = transparent and "NONE" or nil },
-        },
-      }
+      return { transparent = vim.g.transparent_enabled, hide_fillchars = true }
     end,
   },
-
   {
     "rebelot/kanagawa.nvim",
     lazy = true,
-    priority = 1000,
     opts = function()
-      local transparent = vim.g.transparent_enabled
-      return {
-        transparent = transparent,
-        colors = {
-          theme = {
-            all = {
-              ui = {
-                bg_gutter = transparent and "none" or nil,
-                float = { bg = transparent and "none" or nil },
-              },
-            },
-          },
-        },
-        overrides = function()
-          return {
-            Normal = { bg = transparent and "NONE" or nil },
-            NormalNC = { bg = transparent and "NONE" or nil },
-            SignColumn = { bg = transparent and "NONE" or nil },
-            EndOfBuffer = { bg = transparent and "NONE" or nil },
-            LineNr = { bg = transparent and "NONE" or nil },
-            CursorLineNr = { bg = transparent and "NONE" or nil },
-            NormalFloat = { bg = transparent and "NONE" or nil },
-            FloatBorder = { bg = transparent and "NONE" or nil },
-            FloatTitle = { bg = transparent and "NONE" or nil },
-            CursorLine = { bg = transparent and "NONE" or nil },
-            Pmenu = { bg = transparent and "NONE" or nil },
-            StatusLine = { bg = transparent and "NONE" or nil },
-            StatusLineNC = { bg = transparent and "NONE" or nil },
-            WinSeparator = { bg = "NONE" },
-            VertSplit = { bg = "NONE" },
-            FoldColumn = { bg = transparent and "NONE" or nil },
-            TelescopeNormal = { bg = transparent and "NONE" or nil },
-            TelescopeBorder = { bg = transparent and "NONE" or nil },
-          }
-        end,
-      }
+      return { transparent = vim.g.transparent_enabled }
     end,
   },
-
   {
     "neanias/everforest-nvim",
-    version = false,
     lazy = true,
-    priority = 1000,
     opts = function()
-      local transparent = vim.g.transparent_enabled
-      return {
-        background = "hard",
-        transparent_background_level = transparent and 2 or 0,
-        ui_contrast = "high",
-        float_style = transparent and "dim" or "bright",
-        on_highlights = function(hl, palette)
-          hl.Normal = { bg = transparent and "NONE" or palette.bg0 }
-          hl.NormalNC = { bg = transparent and "NONE" or palette.bg0 }
-          hl.SignColumn = { bg = transparent and "NONE" or palette.bg0 }
-          hl.EndOfBuffer = { bg = transparent and "NONE" or palette.bg0 }
-          hl.LineNr = { bg = transparent and "NONE" or palette.bg0 }
-          hl.CursorLineNr = { bg = transparent and "NONE" or palette.bg0 }
-          hl.NormalFloat = { bg = transparent and "NONE" or palette.bg_dim }
-          hl.FloatBorder = { bg = transparent and "NONE" or palette.bg_dim }
-          hl.FloatTitle = { bg = transparent and "NONE" or palette.bg_dim }
-          hl.CursorLine = { bg = transparent and "NONE" or palette.bg3 }
-          hl.Pmenu = { bg = transparent and "NONE" or palette.bg_dim }
-          hl.PmenuSel = { bg = palette.bg3 }
-          hl.StatusLine = { bg = transparent and "NONE" or palette.bg_dim }
-          hl.StatusLineNC = { bg = transparent and "NONE" or palette.bg_dim }
-          hl.WinSeparator = { bg = "NONE" }
-          hl.VertSplit = { bg = "NONE" }
-          hl.FoldColumn = { bg = transparent and "NONE" or palette.bg0 }
-          hl.TelescopeNormal = { bg = transparent and "NONE" or palette.bg_dim }
-          hl.TelescopeBorder = { bg = transparent and "NONE" or palette.bg_dim }
-        end,
-      }
+      return { background = "hard", transparent_background_level = vim.g.transparent_enabled and 2 or 0 }
     end,
   },
-
   {
     "ellisonleao/gruvbox.nvim",
     lazy = true,
-    priority = 1000,
     opts = function()
-      local transparent = vim.g.transparent_enabled
-      return {
-        transparent_mode = transparent,
-        terminal_colors = true,
-        overrides = {
-          Normal = { bg = transparent and "NONE" or nil },
-          NormalNC = { bg = transparent and "NONE" or nil },
-          SignColumn = { bg = transparent and "NONE" or nil },
-          EndOfBuffer = { bg = transparent and "NONE" or nil },
-          LineNr = { bg = transparent and "NONE" or nil },
-          CursorLineNr = { bg = transparent and "NONE" or nil },
-          NormalFloat = { bg = transparent and "NONE" or nil },
-          FloatBorder = { bg = transparent and "NONE" or nil },
-          FloatTitle = { bg = transparent and "NONE" or nil },
-          CursorLine = { bg = transparent and "NONE" or nil },
-          Pmenu = { bg = transparent and "NONE" or nil },
-          StatusLine = { bg = transparent and "NONE" or nil },
-          StatusLineNC = { bg = transparent and "NONE" or nil },
-          WinSeparator = { bg = "NONE" },
-          VertSplit = { bg = "NONE" },
-          FoldColumn = { bg = transparent and "NONE" or nil },
-          TelescopeNormal = { bg = transparent and "NONE" or nil },
-          TelescopeBorder = { bg = transparent and "NONE" or nil },
-        },
-      }
+      return { transparent_mode = vim.g.transparent_enabled }
     end,
   },
-
   {
     "sainnhe/gruvbox-material",
     lazy = true,
-    priority = 1000,
     init = function()
       vim.g.gruvbox_material_transparent_background = vim.g.transparent_enabled and 2 or 0
-      vim.g.gruvbox_material_float_style = vim.g.transparent_enabled and "dim" or "bright"
-      vim.g.gruvbox_material_enable_italic = true
-      vim.g.gruvbox_material_better_performance = 1
     end,
   },
-
   {
     "Tsuzat/NeoSolarized.nvim",
     lazy = true,
-    priority = 1000,
-    opts = {
-      transparent = vim.g.transparent_enabled,
-      enable_italics = true,
-      styles = {
-        comments = { italic = true },
-        keywords = { italic = true },
-        functions = { bold = false },
-        variables = {},
-      },
-    },
-  },
-
-  {
-    "xiyaowong/transparent.nvim",
-    lazy = false,
-    opts = {
-      extra_groups = {
-        "Normal",
-        "NormalNC",
-        "NormalFloat",
-        "FloatBorder",
-        "FloatTitle",
-        "CursorLine",
-        "CursorLineNr",
-        "SignColumn",
-        "EndOfBuffer",
-        "LineNr",
-        "StatusLine",
-        "StatusLineNC",
-        "WinSeparator",
-        "VertSplit",
-        "FoldColumn",
-        "Pmenu",
-        "TelescopeNormal",
-        "TelescopeBorder",
-        "TelescopePromptNormal",
-        "TelescopePromptBorder",
-        "TelescopeResultsNormal",
-        "TelescopeResultsBorder",
-        "TelescopePreviewNormal",
-        "TelescopePreviewBorder",
-        "LazyNormal",
-        "MasonNormal",
-      },
-      exclude_groups = {
-        "PmenuSel",
-      },
-    },
-    config = function(_, opts)
-      require("transparent").setup(opts)
-      if vim.g.transparent_enabled then
-        vim.cmd("TransparentEnable")
-      end
-
-      vim.keymap.set("n", "<leader>ut", function()
-        vim.g.transparent_enabled = not vim.g.transparent_enabled
-
-        if vim.g.transparent_enabled then
-          vim.cmd("TransparentEnable")
-        else
-          vim.cmd("TransparentDisable")
-        end
-
-        vim.cmd.colorscheme(current_colorscheme())
-      end, { desc = "Toggle Transparency" })
+    opts = function()
+      return { transparent = vim.g.transparent_enabled }
     end,
-  },
-
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = current_colorscheme(),
-    },
-  },
-
-  {
-    "nvim-telescope/telescope.nvim",
-    optional = true,
-    opts = {
-      defaults = {
-        winblend = 10,
-      },
-    },
-  },
-
-  {
-    "folke/noice.nvim",
-    optional = true,
-    opts = {
-      presets = {
-        lsp_doc_border = true,
-      },
-    },
-  },
-
-  {
-    "hrsh7th/nvim-cmp",
-    optional = true,
-    opts = function(_, opts)
-      opts.window = opts.window or {}
-      opts.window.completion = opts.window.completion or {}
-      opts.window.documentation = opts.window.documentation or {}
-      opts.window.completion.winhighlight = "Normal:Pmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None"
-      opts.window.documentation.winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,Search:None"
-      return opts
-    end,
-  },
-
-  {
-    "saghen/blink.cmp",
-    optional = true,
-    opts = {
-      completion = {
-        menu = {
-          winblend = 10,
-        },
-        documentation = {
-          window = {
-            winblend = 10,
-          },
-        },
-      },
-    },
   },
 }

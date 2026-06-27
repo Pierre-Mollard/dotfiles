@@ -1,24 +1,26 @@
 return {
   "sphamba/smear-cursor.nvim",
   opts = {
-    cursor_color = "#ffffff",
-    particles_enabled = false,
-    stiffness = 0.5,
+    -- Tokyonight accent colors:
+    -- You can use "#7aa2f7" (Blue - default cursor color in tokyonight)
+    -- Or "#bb9af7" (Purple), or "#c0caf5" (Main text color)
+    cursor_color = "#c0caf5",
+
+    -- Make the smear feel snappy and fluid, not sluggish
+    stiffness = 0.3,
     trailing_stiffness = 0.2,
-    trailing_exponent = 5,
-    damping = 0.6,
-    gradient_exponent = 0,
-    gamma = 1,
-    never_draw_over_target = true, -- if you want to actually see under the cursor
-    hide_target_hack = true, -- same
-    particle_spread = 1,
-    particles_per_second = 500,
-    particles_per_length = 50,
-    particle_max_lifetime = 800,
-    particle_max_initial_velocity = 20,
-    particle_velocity_from_cursor = 0.5,
-    particle_damping = 0.15,
-    particle_gravity = -50,
-    min_distance_emit_particles = 0,
+    damping = 0.8,
+
+    -- Control how the trail looks
+    distance_stop_animating = 0.05,
+
+    -- Keep particles disabled for a cleaner transparent look
+    particles_enabled = false,
+
+    smear_between_neighbor_lines = true,
+
+    -- The core hacks to make it look right over text
+    never_draw_over_target = true,
+    hide_target_hack = true,
   },
 }
