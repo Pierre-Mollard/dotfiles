@@ -316,6 +316,16 @@ return {
             hl.WhichKeyFloat = { bg = "NONE" }
             hl.WhichKeyBorder = { fg = c.border_highlight, bg = "NONE" }
             hl.WhichKeyTitle = { fg = c.orange, bg = "NONE" }
+
+            -- 9. Blink selected item visibility on transparent backgrounds
+            hl.BlinkCmpMenu = { bg = "NONE" }
+            hl.BlinkCmpMenuBorder = { fg = c.border_highlight, bg = "NONE" }
+            hl.BlinkCmpMenuSelection = { bg = c.bg_highlight, fg = c.fg }
+
+            hl.BlinkCmpDoc = { bg = "NONE" }
+            hl.BlinkCmpDocBorder = { fg = c.border_highlight, bg = "NONE" }
+            hl.BlinkCmpSignatureHelp = { bg = "NONE" }
+            hl.BlinkCmpSignatureHelpBorder = { fg = c.border_highlight, bg = "NONE" }
           end
         end,
       }
