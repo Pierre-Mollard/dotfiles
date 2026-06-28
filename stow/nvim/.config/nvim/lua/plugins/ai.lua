@@ -6,6 +6,32 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
+    init = function()
+      local progress_handle = nil
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "CodeCompanionRequest*",
+        callback = function(request)
+          if request.match == "CodeCompanionRequestStarted" then
+            -- Safely create a new progress notification in Fidget
+            local success, progress = pcall(require, "fidget.progress")
+            if success then
+              progress_handle = progress.handle.create({
+                title = "CodeCompanion",
+                lsp_client = { name = "Ollama" },
+                message = "Thinking...",
+              })
+            end
+          elseif request.match == "CodeCompanionRequestFinished" then
+            -- Close the notification when the AI finishes
+            if progress_handle then
+              progress_handle:finish()
+              progress_handle = nil
+            end
+          end
+        end,
+      })
+    end,
     opts = {
       strategies = {
         chat = {
