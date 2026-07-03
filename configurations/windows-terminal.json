@@ -1,27 +1,81 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    "actions": [],
+    "actions": 
+    [
+        {
+            "command": 
+            {
+                "action": "sendInput",
+                "input": "\u0017"
+            },
+            "id": "User.sendInput.817164EE"
+        },
+        {
+            "command": 
+            {
+                "action": "sendInput",
+                "input": "\u001b"
+            },
+            "id": "User.sendInput.BAB9BCE0"
+        },
+        {
+            "command": 
+            {
+                "action": "sendInput",
+                "input": "\f"
+            },
+            "id": "User.sendInput.33AC20B5"
+        },
+        {
+            "command": 
+            {
+                "action": "sendInput",
+                "input": "\u001bd"
+            },
+            "id": "User.sendInput.53EE635F"
+        }
+    ],
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
     "keybindings": 
     [
         {
-            "id": "Terminal.CopyToClipboard",
-            "keys": "ctrl+c"
+            "id": "User.sendInput.53EE635F",
+            "keys": "ctrl+delete"
         },
         {
-            "id": "Terminal.PasteFromClipboard",
-            "keys": "ctrl+v"
+            "id": "Terminal.CopyToClipboard",
+            "keys": "ctrl+c"
         },
         {
             "id": "Terminal.FindText",
             "keys": "ctrl+shift+f"
         },
         {
+            "id": "Terminal.PasteFromClipboard",
+            "keys": "ctrl+v"
+        },
+        {
             "id": "Terminal.DuplicatePaneAuto",
             "keys": "alt+shift+d"
+        },
+        {
+            "id": "User.sendInput.817164EE",
+            "keys": "ctrl+backspace"
+        },
+        {
+            "id": "User.sendInput.BAB9BCE0",
+            "keys": "ctrl+["
+        },
+        {
+            "id": "User.sendInput.33AC20B5",
+            "keys": "ctrl+l"
+        },
+
+
+            "keys": "ctrl+shift+t"
         }
     ],
     "newTabMenu": 
@@ -71,8 +125,10 @@
                 "colorScheme": "Tokyo Night Custom",
                 "cursorColor": null,
                 "cursorShape": "filledBox",
+                "experimental.retroTerminalEffect": false,
                 "font": 
                 {
+                    "cellHeight": "1.2",
                     "face": "JetBrainsMono Nerd Font",
                     "size": 16
                 },
@@ -80,8 +136,8 @@
                 "guid": "{c679dbdd-26a1-552e-8cfd-cf37e1bf6fcc}",
                 "hidden": false,
                 "name": "Ubuntu",
-                "opacity": 80,
-                "padding": "8, 12, 0, 6",
+                "opacity": 85,
+                "padding": "8,6,0,6",
                 "source": "Microsoft.WSL",
                 "suppressApplicationTitle": false,
                 "useAcrylic": true
@@ -135,8 +191,34 @@
             "selectionBackground": "#28344A",
             "white": "#DCDFE4",
             "yellow": "#E0AF68"
+        },
+        {
+            "name": "Tokyo Night 2",
+            "background": "#1a1b26",
+            "foreground": "#c0caf5",
+            "cursorColor": "#c0caf5",
+            "selectionBackground": "#33467C",
+            "black": "#15161E",
+            "blue": "#7aa2f7",
+            "cyan": "#7dcfff",
+            "green": "#9ece6a",
+            "purple": "#bb9af7",
+            "red": "#f7768e",
+            "white": "#a9b1d6",
+            "yellow": "#e0af68",
+            "brightBlack": "#414868",
+            "brightBlue": "#7aa2f7",
+            "brightCyan": "#7dcfff",
+            "brightGreen": "#9ece6a",
+            "brightPurple": "#bb9af7",
+            "brightRed": "#f7768e",
+            "brightWhite": "#c0caf5",
+            "brightYellow": "#e0af68"
         }
     ],
+    "showTabsInTitlebar": true,
+    "tabWidthMode": "titleLength",
     "theme": "system",
-    "themes": []
+    "themes": [],
+    "useAcrylicInTabRow": false
 }
