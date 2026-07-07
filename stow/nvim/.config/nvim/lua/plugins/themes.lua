@@ -8,6 +8,7 @@ local themes = {
   gruvbox = false,
   gruvbox_material = false,
   neosolarized = false,
+  duskhaven = false,
 }
 
 vim.g.transparent_enabled = true -- Keep track of state globally so we can toggle
@@ -22,6 +23,7 @@ local function current_colorscheme()
     or themes.gruvbox and "gruvbox"
     or themes.gruvbox_material and "gruvbox-material"
     or themes.neosolarized and "NeoSolarized"
+    or themes.duskhaven and "duskhaven"
     or "tokyonight-night"
 end
 
@@ -61,6 +63,8 @@ return {
             vim.g.everforest_transparent_background = is_transparent and 2 or 0
           elseif active_theme and active_theme:match("gruvbox") then
             require("gruvbox").setup({ transparent_mode = is_transparent })
+          elseif active_theme and active_theme:match("duskhaven") then
+            require("duskhaven").setup({ transparent = is_transparent })
           end
 
           vim.cmd("colorscheme " .. current_colorscheme())
@@ -309,7 +313,6 @@ return {
             hl.NoiceCmdlinePopupTitle = { fg = c.orange, bg = "NONE" }
             hl.NoiceConfirm = { bg = "NONE" }
             hl.NoiceConfirmBorder = { fg = c.border_highlight, bg = "NONE" }
-            -- Noice 'mini' messages (bottom right corners) [web:956]
             hl.NoiceMini = { bg = "NONE" }
 
             -- 8. WhichKey (Bottom keybind popup)
@@ -377,6 +380,15 @@ return {
   },
   {
     "Tsuzat/NeoSolarized.nvim",
+    lazy = true,
+    opts = function()
+      return { transparent = vim.g.transparent_enabled }
+    end,
+  },
+
+  -- Added duskhaven plugin block
+  {
+    "kbraggins/duskhaven.nvim",
     lazy = true,
     opts = function()
       return { transparent = vim.g.transparent_enabled }
