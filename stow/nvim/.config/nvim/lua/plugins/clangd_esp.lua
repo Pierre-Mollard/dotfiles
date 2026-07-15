@@ -1,22 +1,41 @@
+-- Helper function to find Espressif clangd or fallback to system clangd
+local function get_clangd_cmd()
+  -- Use glob to find the esp-clangd binary, ignoring the version folder name
+  local esp_pattern = vim.fn.expand("~/.espressif/tools/esp-clang/*/esp-clang/bin/clangd")
+  local matches = vim.split(vim.fn.glob(esp_pattern), "\n")
+
+  -- Default to system clangd (or Mason's clangd) if ESP-IDF is not found
+  local clangd_bin = "clangd"
+
+  -- If we found an esp-clangd binary, use the first one found
+  if matches[1] and matches[1] ~= "" then
+    clangd_bin = matches[1]
+  end
+
+  return {
+    clangd_bin,
+    "--query-driver="
+      .. "**/*-elf-gcc," -- Any ESP32 compiler (Xtensa or RISC-V, anywhere on disk)
+      .. "**/*-none-eabi-gcc," -- Any ARM embedded compiler (STM32, RP2040, etc.)
+      .. "/usr/bin/gcc," -- Standard Linux C
+      .. "/usr/bin/g++," -- Standard Linux C++
+      .. "/usr/bin/cc,"
+      .. "/usr/bin/c++",
+    "--background-index",
+    "--header-insertion=iwyu",
+    "--enable-config",
+  }
+end
+
 return {
-  -- override nvim-lspconfig clangd only (keeps everything else)
-  -- remove manually if project is not esp32
-  -- no easier solution found...
   {
     "neovim/nvim-lspconfig",
     ---@class PluginLspOpts
     opts = {
       servers = {
         clangd = {
-          cmd = {
-            "/home/pierre/.espressif/tools/esp-clang/esp-20.1.1_20250829/esp-clang/bin/clangd",
-            "--compile-commands-dir=build",
-            "--query-driver=/home/pierre/.espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/xtensa-esp32-elf-gcc",
-            "--background-index",
-            "--header-insertion=iwyu", -- used for code action
-            "--clang-tidy", -- used for code action
-            "--enable-config", -- used for code action
-          },
+          mason = false,
+          cmd = get_clangd_cmd(),
         },
       },
     },
