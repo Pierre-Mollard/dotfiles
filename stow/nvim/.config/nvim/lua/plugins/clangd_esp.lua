@@ -12,7 +12,11 @@ local function get_clangd_cmd()
     clangd_bin = matches[1]
   end
 
-  return {
+  -- Check if multiple procs available (parallelization)
+  local nproc_str = vim.fn.trim(vim.fn.system({ "nproc" }))
+  local nproc = tonumber(nproc_str)
+
+  local cmd = {
     clangd_bin,
     "--query-driver="
       .. "**/*-elf-gcc," -- Any ESP32 compiler (Xtensa or RISC-V, anywhere on disk)
@@ -25,6 +29,12 @@ local function get_clangd_cmd()
     "--header-insertion=iwyu",
     "--enable-config",
   }
+
+  if nproc and nproc > 1 then
+    table.insert(cmd, string.format("--j=%d", nproc - 1))
+  end
+
+  return cmd
 end
 
 return {
