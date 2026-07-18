@@ -3,5 +3,5 @@
 # Set path of script
 PLUGIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-tmux source "${PLUGIN_DIR}/pmo_options_tmux.conf"
+# Entry point from tmux.conf, can load multiple files here
 tmux source "${PLUGIN_DIR}/pmo_tmux.conf"
