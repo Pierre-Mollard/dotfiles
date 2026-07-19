@@ -10,5 +10,7 @@
 - difftastic
 - felix
 - skim (replace fzf)
+- fzf
 - ascinema
 - zellij
+- starship

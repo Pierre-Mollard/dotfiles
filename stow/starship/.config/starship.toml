@@ -1,0 +1,154 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Global Settings
+palette = 'tokyo-night'
+add_newline = false
+command_timeout = 1000 # Increase timeout for slow git repos
+
+# -----------------------------------------------
+# Layout Structure:
+# Left Side: OS, Host, Dir, Git, Container
+# Fill: Empty space to push the rest to the right
+# Right Side: Node, C, CMake, Dart, Execution Time, Exit Status
+# New Line: Clean input prompt
+# -----------------------------------------------
+format = """\
+[█](blue)\
+$os\
+${custom.os_version}\
+$hostname\
+[](bg:bg_highlight fg:blue)\
+$directory\
+[](bg:bg fg:bg_highlight)\
+$git_branch\
+$git_status\
+$container\
+[](fg:bg)\
+$fill\
+$nodejs\
+$c\
+$cmake\
+$dart\
+$cmd_duration\
+$status\
+$line_break\
+$character"""
+
+# -----------------------------------------------
+# Color Palette (Tokyo Night)
+# -----------------------------------------------
+[palettes.tokyo-night]
+blue = '#7aa2f7'
+cyan = '#7dcfff'
+magenta = '#bb9af7'
+green = '#9ece6a'
+yellow = '#e0af68'
+red = '#f7768e'
+bg = '#1a1b26'
+bg_highlight = '#292e42'
+fg = '#c0caf5'
+black = '#090c0c'
+brightcyan = '#2ac3de'
+
+[custom.os_version]
+# The command reads /etc/os-release, finds VERSION_ID, and strips the quotes
+command = "awk -F= '/^VERSION_ID=/{gsub(/\"/,\"\",$2); print $2}' /etc/os-release"
+# This ensures it ONLY runs on Linux machines that have this file
+when = "test -f /etc/os-release"
+style = "bg:blue fg:black"
+format = '[$output ]($style)'
+
+# -----------------------------------------------
+# Left Side Modules
+# -----------------------------------------------
+[os]
+disabled = false
+format = '[$symbol](bg:blue fg:black)'
+
+# Shows the Arch Linux logo natively
+[os.symbols]
+Arch = "󰣇 "
+Ubuntu = " "
+Macos = " "
+Redhat = "󱄛 "          # Standard Red Hat [web:145]
+RedHatEnterprise = "󱄛 "  # RHEL 7, 8, 9, 10 [web:145]
+Fedora = "󰣛 "          # Upstream Red Hat [web:145]
+CentOS = " "          # Downstream Red Hat [web:145]
+AlmaLinux = " "       # RHEL Clone
+RockyLinux = " "      # RHEL Clone
+Debian = "󰣚 "          # [web:145]
+Alpine = " "          # Often used in Docker containers [web:145]
+Mint = "󰣭 "            # [web:145]
+Windows = "󰍲 "         # Useful if you ever use WSL [web:145]
+Linux = "󰌽 "           # Fallback generic Tux penguin [web:145]
+
+[username]
+disabled = true
+
+[hostname]
+ssh_only = false
+trim_at = '.'
+format = '[$hostname ](bg:blue fg:black)'
+disabled = false
+
+[directory]
+style = "bg:bg_highlight fg:fg"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bg:bg"
+format = '[[ $symbol $branch ](fg:blue bg:bg)]($style)'
+
+[git_status]
+style = "bg:bg"
+format = '[[($ahead_behind )](fg:cyan bg:bg)]($style)'
+
+[container]
+disabled = false
+format = '[[ 󰏖 $name ](fg:yellow bg:bg)]($style)'
+
+# -----------------------------------------------
+# Center (Flex Space)
+# -----------------------------------------------
+[fill]
+symbol = ' '
+
+# -----------------------------------------------
+# Right Side Modules
+# -----------------------------------------------
+[nodejs]
+symbol = " "
+format = '[$symbol($version )](fg:green)'
+
+[c]
+symbol = " "
+format = '[$symbol($version )](fg:blue)'
+
+[cmake]
+symbol = "󰔷 "
+format = '[$symbol($version )](fg:blue)'
+
+[dart]
+symbol = " "
+format = '[$symbol($version )](fg:cyan)'
+
+[cmd_duration]
+min_time = 2000 # Only shows if command took > 2 seconds
+format = '[ ﱣ $duration ](fg:yellow)'
+
+[status]
+disabled = false
+format = '[ ✘ $int ](fg:red)'
+
+# -----------------------------------------------
+# The Prompt Line
+# -----------------------------------------------
+[character]
+disabled = false
+# Success arrow is now bright cyan (matches LazyVim's indentline color)
+success_symbol = '[❯](bold brightcyan)'
+error_symbol = '[❯](bold red)'
+vimcmd_symbol = '[❮](bold blue)'
