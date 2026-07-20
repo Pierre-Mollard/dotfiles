@@ -13,11 +13,11 @@ command_timeout = 1000 # Increase timeout for slow git repos
 # New Line: Clean input prompt
 # -----------------------------------------------
 format = """\
-[█](blue)\
+[█](brightcyan)\
 $os\
 ${custom.os_version}\
 $hostname\
-[](bg:bg_highlight fg:blue)\
+[](bg:bg_highlight fg:brightcyan)\
 $directory\
 [](bg:bg fg:bg_highlight)\
 $git_branch\
@@ -49,13 +49,15 @@ bg_highlight = '#292e42'
 fg = '#c0caf5'
 black = '#090c0c'
 brightcyan = '#2ac3de'
+brightgreen = '#16C60C'
+brightred = '#FF3B30'
 
 [custom.os_version]
 # The command reads /etc/os-release, finds VERSION_ID, and strips the quotes
 command = "awk -F= '/^VERSION_ID=/{gsub(/\"/,\"\",$2); print $2}' /etc/os-release"
 # This ensures it ONLY runs on Linux machines that have this file
 when = "test -f /etc/os-release"
-style = "bg:blue fg:black"
+style = "bg:brightcyan fg:black"
 format = '[$output ]($style)'
 
 # -----------------------------------------------
@@ -63,7 +65,7 @@ format = '[$output ]($style)'
 # -----------------------------------------------
 [os]
 disabled = false
-format = '[$symbol](bg:blue fg:black)'
+format = '[$symbol](bg:brightcyan fg:black)'
 
 # Shows the Arch Linux logo natively
 [os.symbols]
@@ -88,11 +90,11 @@ disabled = true
 [hostname]
 ssh_only = false
 trim_at = '.'
-format = '[$hostname ](bg:blue fg:black)'
+format = '[$hostname ](bg:brightcyan fg:black)'
 disabled = false
 
 [directory]
-style = "bg:bg_highlight fg:fg"
+style = "bg:bg_highlight fg:white"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -100,7 +102,7 @@ truncation_symbol = "…/"
 [git_branch]
 symbol = ""
 style = "bg:bg"
-format = '[[ $symbol $branch ](fg:blue bg:bg)]($style)'
+format = '[[ $symbol $branch ](fg:brightcyan bg:bg)]($style)'
 
 [git_status]
 style = "bg:bg"
@@ -125,11 +127,11 @@ format = '[$symbol($version )](fg:green)'
 
 [c]
 symbol = " "
-format = '[$symbol($version )](fg:blue)'
+format = '[$symbol($version )](fg:brightcyan)'
 
 [cmake]
 symbol = "󰔷 "
-format = '[$symbol($version )](fg:blue)'
+format = '[$symbol($version )](fg:brightcyan)'
 
 [dart]
 symbol = " "
@@ -149,6 +151,6 @@ format = '[ ✘ $int ](fg:red)'
 [character]
 disabled = false
 # Success arrow is now bright cyan (matches LazyVim's indentline color)
-success_symbol = '[❯](bold brightcyan)'
-error_symbol = '[❯](bold red)'
-vimcmd_symbol = '[❮](bold blue)'
+success_symbol = '[❯](bold brightgreen)'
+error_symbol = '[❯](bold brightred)'
+vimcmd_symbol = '[❮](bold brightcyan)'
