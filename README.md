@@ -1,15 +1,15 @@
 
 ## Dotfiles
 
-Select the bash init rc files from the different files in `Dotfiles` (avoid duplication with current bashrc you the new env). 
+Select the bash init rc files from the different files in `Dotfiles` (avoid duplication with current bashrc you the new env).
 
-If copied then sourced in the main bashrc, then add a dot '.' before the filename for consistency. 
+If copied then sourced in the main bashrc, then add a dot '.' before the filename for consistency.
 
-Careful, some bashrc like omarchy source the main configuration themselves. 
+Careful, some bashrc like omarchy source the main configuration themselves.
 
 ## File tree
 
-This is how the dotfiles are mapped from this repo to the new environmemt: 
+This is how the dotfiles are mapped from this repo to the new environmemt:
 
 stow/
 ├── bash/
@@ -25,7 +25,7 @@ stow/
     └── dot-config/
         └── tmux/        # → ~/.config/tmux/
 
-Using stow, all the package inside this directory will be symlink to HOME (~/). 
+Using stow, all the package inside this directory will be symlink to HOME (~/).
 All dot-name will be converted to .name by stow using the --dotefiles argument.
 (not working so keeping .config)
 
@@ -33,7 +33,7 @@ All dot-name will be converted to .name by stow using the --dotefiles argument.
 
 To generate keys for Github :
 
-```bash 
+```bash
 ssh-keygen -t ed25519 -C "pierre.mollard19@orange.fr"
 ```
 
@@ -56,13 +56,26 @@ stow
 
 - [ ] add all deps for offline components like lazyvim with C/C++ LSP servers.
 - [ ] conf tmux more effecient
-- [ ] cleanup and add tmux plugin files (manual for now: https://github.com/catppuccin/tmux)
+- [ ] cleanup and add tmux plugin files (manual for now: <https://github.com/catppuccin/tmux>)
 
 TODO: 2
+
 - [ ] setup colortheme for all rust utils? (check if possible)
 - [ ] setup zellij conf like tmux
 
 ## Windows Terminal setup
 
 Background color with tokyonight : #16161e
-Configuration source: https://github.com/jiyometrik/tokyonight-windows-terminal/tree/master 
+Configuration source: <https://github.com/jiyometrik/tokyonight-windows-terminal/tree/master>
+
+## Docker
+
+if running lazyvim through a container but not tmux, docker need access to the tmux socket:
+
+```bash
+docker run -it \
+  -v /tmp/tmux-$(id -u):/tmp/tmux-$(id -u) \
+  -e TMUX=$TMUX \
+  -e TMUX_PANE=$TMUX_PANE \
+  your-dev-image
+```

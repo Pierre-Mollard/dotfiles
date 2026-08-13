@@ -1,5 +1,4 @@
 return {
-  -- add tmux navigator plugin to run within tmux with same key binds
   {
     "christoomey/vim-tmux-navigator",
     lazy = false,
@@ -9,14 +8,13 @@ return {
       "TmuxNavigateUp",
       "TmuxNavigateRight",
       "TmuxNavigatePrevious",
-      "TmuxNavigatorProcessList",
     },
     keys = {
-      -- Key maps
-      { "<C-h>", "<cmd> TmuxNavigateLeft<CR>", desc = "Tmux Window Left" },
-      { "<C-l>", "<cmd> TmuxNavigateRight<CR>", desc = "Tmux Window Right" },
-      { "<C-j>", "<cmd> TmuxNavigateDown<CR>", desc = "Tmux Window Down" },
-      { "<C-k>", "<cmd> TmuxNavigateUp<CR>", desc = "Tmux Window Up" },
+      { "<C-h>", "<cmd>TmuxNavigateLeft<cr>", desc = "Window/Pane Left" },
+      { "<C-j>", "<cmd>TmuxNavigateDown<cr>", desc = "Window/Pane Down" },
+      { "<C-k>", "<cmd>TmuxNavigateUp<cr>", desc = "Window/Pane Up" },
+      { "<C-l>", "<cmd>TmuxNavigateRight<cr>", desc = "Window/Pane Right" },
+      { "<C-\\>", "<cmd>TmuxNavigatePrevious<cr>", desc = "Window/Pane Previous" },
     },
   },
 }
