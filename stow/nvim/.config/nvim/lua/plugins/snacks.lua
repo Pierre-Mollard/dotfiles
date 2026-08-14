@@ -12,6 +12,33 @@ return {
             enter = false,
           },
         },
+        win = {
+          -- 1. SEARCH INPUT FIELD
+          input = {
+            keys = {
+              -- Jump right to the preview window
+              ["<C-w>"] = { "focus_preview", mode = { "i", "n" } },
+            },
+          },
+          -- 2. FILE LIST (LEFT SIDE)
+          list = {
+            keys = {
+              -- Jump right to the preview window
+              ["<C-w>"] = { "focus_preview", mode = { "n", "i" } },
+              ["L"] = { "focus_preview", mode = { "n" } },
+            },
+          },
+          -- 3. PREVIEW WINDOW (RIGHT SIDE)
+          preview = {
+            keys = {
+              -- Jump left back to the file list or search input
+              ["<Esc>"] = { "focus_input", mode = { "n" } },
+              ["<C-w>"] = { "focus_list", mode = { "n" } },
+              ["h"] = { "focus_list", mode = { "n" } },
+              ["H"] = { "focus_input", mode = { "n" } },
+            },
+          },
+        },
       },
     },
     init = function()
