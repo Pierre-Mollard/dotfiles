@@ -106,7 +106,18 @@ format = '[[ $symbol $branch ](fg:brightcyan bg:bg)]($style)'
 
 [git_status]
 style = "bg:bg"
-format = '[[($ahead_behind )](fg:cyan bg:bg)]($style)'
+format = '[($ahead_behind )]($style)'
+#format = '[[ $all_status$ahead_behind ](fg:cyan bg:bg)]($style)'
+#conflicted = " "
+#ahead = "⇡${count} "
+#behind = "⇣${count} "
+#diverged = "⇕ "
+#untracked = ""
+#stashed = " "
+#modified = " ${count} "
+#staged = " ${count} "
+#renamed = " ${count} "
+#deleted = " ${count} "
 
 [container]
 disabled = false
@@ -139,10 +150,11 @@ format = '[$symbol($version )](fg:cyan)'
 
 [cmd_duration]
 min_time = 2000 # Only shows if command took > 2 seconds
-format = '[ ﱣ $duration ](fg:yellow)'
+format = '[  $duration ](fg:yellow)'
 
 [status]
 disabled = false
+success_symbol = ""
 format = '[ ✘ $int ](fg:red)'
 
 # -----------------------------------------------
