@@ -2,7 +2,7 @@
 
 # Global Settings
 palette = 'tokyo-night'
-add_newline = false
+add_newline = true
 command_timeout = 1000 # Increase timeout for slow git repos
 
 # -----------------------------------------------
