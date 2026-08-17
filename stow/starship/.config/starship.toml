@@ -25,6 +25,7 @@ $git_status\
 $container\
 [](fg:bg)\
 $fill\
+$rust\
 $nodejs\
 $c\
 $cmake\
@@ -106,22 +107,17 @@ format = '[[ $symbol $branch ](fg:brightcyan bg:bg)]($style)'
 
 [git_status]
 style = "bg:bg"
-format = '[($ahead_behind )]($style)'
-#format = '[[ $all_status$ahead_behind ](fg:cyan bg:bg)]($style)'
-#conflicted = " "
-#ahead = "⇡${count} "
-#behind = "⇣${count} "
-#diverged = "⇕ "
-#untracked = ""
-#stashed = " "
-#modified = " ${count} "
-#staged = " ${count} "
-#renamed = " ${count} "
-#deleted = " ${count} "
+ignore_submodules = true
+format = ''
 
 [container]
 disabled = false
 format = '[[ 󰏖 $name ](fg:yellow bg:bg)]($style)'
+
+[rust] # See https://starship.rs/config/#rust
+disabled = false
+symbol = ' '
+format = '[$symbol($version )]($style)'
 
 # -----------------------------------------------
 # Center (Flex Space)
