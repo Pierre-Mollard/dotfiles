@@ -51,3 +51,11 @@ bindkey '^E' end-of-line                         # Ctrl+E to go to end of line
 bindkey '^W' backward-kill-word                  # Ctrl+W to delete previous
 
 alias refresh="source ~/.zshrc"
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias gg="~/projects/dotfiles/scripts/tmux_basic_session.sh"
+
+export VISUAL=vim
+export EDITOR="$VISUAL"
+export GIT_EDITOR=vim

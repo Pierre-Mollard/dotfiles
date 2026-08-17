@@ -1,3 +1,6 @@
+# Add default SSH key (adjust path if needed)
+ssh-add ~/.ssh/github >/dev/null 2>&1
+
 # Load standard profile for environment variables (Flutter, C paths, etc.)
 [[ -f ~/.profile ]] && source ~/.profile
 
@@ -36,4 +39,5 @@ grep() {
   fi
 }
 
+eval "$(ssh-agent -s)"
 eval "$(starship init zsh)"
