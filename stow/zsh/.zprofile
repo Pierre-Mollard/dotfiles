@@ -1,3 +1,5 @@
+# Login environment: PATH, environment variables, shell-independent session setup
+
 # Add default SSH key (adjust path if needed)
 ssh-add ~/.ssh/github >/dev/null 2>&1
 
@@ -38,6 +40,3 @@ grep() {
     command grep --color=auto "$@"
   fi
 }
-
-eval "$(ssh-agent -s)"
-eval "$(starship init zsh)"

@@ -1,3 +1,5 @@
+# 	Interactive behavior: aliases, functions, completions, key bindings, prompt, plugins
+
 # =============================================================================
 # 1. ZSH OPTIONS & HISTORY
 # =============================================================================
@@ -59,3 +61,5 @@ alias gg="~/projects/dotfiles/scripts/tmux_basic_session.sh"
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export GIT_EDITOR=vim
+
+eval "$(starship init zsh)"
