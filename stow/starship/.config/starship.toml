@@ -32,6 +32,10 @@ $cmake\
 $dart\
 $cmd_duration\
 $status\
+[](fg:bg_highlight)\
+$time\
+[](fg:brightcyan bg:bg_highlight)\
+[█](brightcyan)\
 $line_break\
 $character"""
 
@@ -44,6 +48,7 @@ cyan = '#7dcfff'
 magenta = '#bb9af7'
 green = '#9ece6a'
 yellow = '#e0af68'
+orange = '#e69875'
 red = '#f7768e'
 bg = '#1a1b26'
 bg_highlight = '#292e42'
@@ -114,11 +119,6 @@ format = ''
 disabled = false
 format = '[[ 󰏖 $name ](fg:yellow bg:bg)]($style)'
 
-[rust] # See https://starship.rs/config/#rust
-disabled = false
-symbol = ' '
-format = '[$symbol($version )]($style)'
-
 # -----------------------------------------------
 # Center (Flex Space)
 # -----------------------------------------------
@@ -128,8 +128,13 @@ symbol = ' '
 # -----------------------------------------------
 # Right Side Modules
 # -----------------------------------------------
+[rust] # See https://starship.rs/config/#rust
+disabled = false
+symbol = ' '
+format = '[$symbol($version )](fg:orange)'
+
 [nodejs]
-symbol = " "
+symbol = "󰎙 "
 format = '[$symbol($version )](fg:green)'
 
 [c]
@@ -137,7 +142,7 @@ symbol = " "
 format = '[$symbol($version )](fg:brightcyan)'
 
 [cmake]
-symbol = "󰔷 "
+symbol = " "
 format = '[$symbol($version )](fg:brightcyan)'
 
 [dart]
@@ -151,7 +156,12 @@ format = '[  $duration ](fg:yellow)'
 [status]
 disabled = false
 success_symbol = ""
-format = '[ ✘ $int ](fg:red)'
+format = '[  $int ](fg:red)'
+
+[time]
+disabled = false
+time_format = "%T" # 24-hour format: HH:MM:SS
+format = '[  $time ](bg:bg_highlight fg:fg)'
 
 # -----------------------------------------------
 # The Prompt Line
@@ -162,3 +172,6 @@ disabled = false
 success_symbol = '[❯](bold brightgreen)'
 error_symbol = '[❯](bold brightred)'
 vimcmd_symbol = '[❮](bold brightcyan)'
+
+# TODO: alternate line color to see clearly which line is which
+# TODO: change theme to match tmux/nvim/zsh
