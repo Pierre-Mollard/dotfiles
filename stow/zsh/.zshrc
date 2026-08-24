@@ -17,6 +17,21 @@ setopt AUTO_CD
 # No annoying beeps
 setopt NO_BEEP
 
+typeset -g _PROMPT_TOGGLE=0
+
+function _toggle_starship_color() {
+   if (( _PROMPT_TOGGLE == 0 )); then
+    _PROMPT_TOGGLE=1
+    export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+  else
+    _PROMPT_TOGGLE=0
+    export STARSHIP_CONFIG="$HOME/.config/starship/starship-variant.toml"
+  fi
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _toggle_starship_color
+
 # =============================================================================
 # 2. VIM MODE
 # =============================================================================

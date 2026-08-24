@@ -1,0 +1,250 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Global Settings
+# Default palette (will be toggled by the shell hook)
+palette = 'tokyo-night-orange'
+add_newline = true
+command_timeout = 1000
+
+# -----------------------------------------------
+# Layout Structure:
+# -----------------------------------------------
+format = """\
+[█](accent)\
+$os\
+${custom.os_version}\
+$hostname\
+[](bg:bg_highlight fg:accent)\
+$directory\
+[](bg:bg fg:bg_highlight)\
+$git_branch\
+$git_status\
+$container\
+[](fg:bg)\
+$fill\
+[](fg:bg)\
+$rust\
+$c\
+$cmake\
+$nodejs\
+$bun\
+$deno\
+$python\
+$lua\
+$golang\
+$zig\
+$dart\
+$package\
+$docker_context\
+$cmd_duration\
+$status\
+[](bg:bg fg:bg_highlight)\
+$time\
+[](bg:bg_highlight fg:accent)\
+$jobs\
+$shlvl\
+$sudo\
+[█](accent)\
+$line_break\
+$character"""
+
+# -----------------------------------------------
+# Tokyo Night Alternating Palettes
+# -----------------------------------------------
+[palettes.tokyo-night-orange]
+blue = '#7aa2f7'
+cyan = '#7dcfff'
+magenta = '#bb9af7'
+green = '#9ece6a'
+yellow = '#e0af68'
+orange = '#e69875'
+red = '#f7768e'
+bg = '#1a1b26'
+bg_highlight = '#292e42'
+fg = '#c0caf5'
+black = '#090c0c'
+accent = '#ff9e64'       # Bright Orange
+brightgreen = '#16C60C'
+brightred = '#FF3B30'
+
+# -----------------------------------------------
+# Left Side Modules
+# -----------------------------------------------
+[custom.os_version]
+command = "awk -F= '/^VERSION_ID=/{gsub(/\"/,\"\",$2); print $2}' /etc/os-release"
+when = "test -f /etc/os-release"
+style = "bg:accent fg:black"
+format = '[$output ]($style)'
+
+[os]
+disabled = false
+format = '[$symbol](bg:accent fg:black)'
+
+[os.symbols]
+Arch = "󰣇 "
+Ubuntu = " "
+Macos = " "
+Redhat = "󱄛 "
+RedHatEnterprise = "󱄛 "
+Fedora = "󰣛 "
+CentOS = " "
+AlmaLinux = " "
+RockyLinux = " "
+Debian = "󰣚 "
+Alpine = " "
+Mint = "󰣭 "
+Windows = "󰍲 "
+Linux = "󰌽 "
+
+[username]
+disabled = true
+
+[hostname]
+ssh_only = false
+trim_at = '.'
+format = '[$hostname ](bg:accent fg:black)'
+disabled = false
+
+[directory]
+style = "bg:bg_highlight fg:white"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bg:bg"
+format = '[[ $symbol $branch ](fg:accent bg:bg)]($style)'
+
+[git_status]
+style = "bg:bg"
+ignore_submodules = true
+format = ''
+
+[container]
+disabled = false
+format = '[[ 󰏖 $name ](fg:yellow bg:bg)]($style)'
+
+# -----------------------------------------------
+# Center (Flex Space)
+# -----------------------------------------------
+[fill]
+symbol = ' '
+
+# -----------------------------------------------
+# Right Side Modules
+# -----------------------------------------------
+[rust]
+disabled = false
+symbol = ' '
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:orange bg:bg)]($style)'
+
+[c]
+symbol = " "
+style = "bg:bg"
+detect_extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'cxx']
+format = '[[ $symbol($version )](fg:accent bg:bg)]($style)'
+
+[cmake]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:accent bg:bg)]($style)'
+
+[nodejs]
+symbol = "󰎙 "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:green bg:bg)]($style)'
+
+[bun]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:yellow bg:bg)]($style)'
+
+[deno]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:blue bg:bg)]($style)'
+
+[python]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:yellow bg:bg)]($style)'
+
+[lua]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:blue bg:bg)]($style)'
+
+[golang]
+symbol = "󰟓 "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:cyan bg:bg)]($style)'
+
+[zig]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:orange bg:bg)]($style)'
+
+[dart]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:cyan bg:bg)]($style)'
+
+[package]
+symbol = "󰏗 "
+style = "bg:bg"
+format = '[[ $symbol$version ](fg:magenta bg:bg)]($style)'
+
+[docker_context]
+symbol = " "
+style = "bg:bg"
+only_with_files = true
+format = '[[ $symbol$context ](fg:blue bg:bg)]($style)'
+
+[cmd_duration]
+min_time = 2000
+style = "bg:bg"
+format = '[[  $duration ](fg:yellow bg:bg)]($style)'
+
+[status]
+disabled = false
+success_symbol = ""
+style = "bg:bg"
+format = '[[  $int ](fg:red bg:bg)]($style)'
+
+[time]
+disabled = false
+time_format = "%T"
+format = '[  $time ](bg:bg_highlight fg:fg)'
+
+[jobs]
+disabled = false
+symbol = "✦ "
+threshold = 1
+style = "bg:accent fg:black"
+format = '[$symbol$number]($style)'
+
+[shlvl]
+disabled = true
+symbol = " 󱆃"
+threshold = 2
+style = "bg:accent fg:black"
+format = '[$symbol$shlvl]($style)'
+
+[sudo]
+disabled = false
+symbol = "  "
+style = "bg:accent fg:black"
+format = '[$symbol]($style)'
+
+# -----------------------------------------------
+# The Prompt Line
+# -----------------------------------------------
+[character]
+disabled = false
+success_symbol = '[❯](bold brightgreen)'
+error_symbol = '[❯](bold brightred)'
+vimcmd_symbol = '[❮](bold accent)'
+
+# TODO: change theme to match tmux/nvim/zsh

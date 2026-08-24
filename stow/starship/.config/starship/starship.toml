@@ -1,23 +1,20 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # Global Settings
-palette = 'tokyo-night'
+# Default palette (will be toggled by the shell hook)
+palette = 'tokyo-night-cyan'
 add_newline = true
-command_timeout = 1000 # Increase timeout for slow git repos
+command_timeout = 1000
 
 # -----------------------------------------------
 # Layout Structure:
-# Left Side: OS, Host, Dir, Git, Container
-# Fill: Empty space to push the rest to the right
-# Right Side: Node, C, CMake, Dart, Execution Time, Exit Status
-# New Line: Clean input prompt
 # -----------------------------------------------
 format = """\
-[█](brightcyan)\
+[█](accent)\
 $os\
 ${custom.os_version}\
 $hostname\
-[](bg:bg_highlight fg:brightcyan)\
+[](bg:bg_highlight fg:accent)\
 $directory\
 [](bg:bg fg:bg_highlight)\
 $git_branch\
@@ -43,18 +40,18 @@ $cmd_duration\
 $status\
 [](bg:bg fg:bg_highlight)\
 $time\
-[](bg:bg_highlight fg:brightcyan)\
+[](bg:bg_highlight fg:accent)\
 $jobs\
 $shlvl\
 $sudo\
-[█](brightcyan)\
+[█](accent)\
 $line_break\
 $character"""
 
 # -----------------------------------------------
-# Color Palette (Tokyo Night)
+# Tokyo Night Alternating Palettes
 # -----------------------------------------------
-[palettes.tokyo-night]
+[palettes.tokyo-night-cyan]
 blue = '#7aa2f7'
 cyan = '#7dcfff'
 magenta = '#bb9af7'
@@ -66,41 +63,38 @@ bg = '#1a1b26'
 bg_highlight = '#292e42'
 fg = '#c0caf5'
 black = '#090c0c'
-brightcyan = '#2ac3de'
+accent = '#2ac3de'       # Bright Cyan
 brightgreen = '#16C60C'
 brightred = '#FF3B30'
-
-[custom.os_version]
-# The command reads /etc/os-release, finds VERSION_ID, and strips the quotes
-command = "awk -F= '/^VERSION_ID=/{gsub(/\"/,\"\",$2); print $2}' /etc/os-release"
-# This ensures it ONLY runs on Linux machines that have this file
-when = "test -f /etc/os-release"
-style = "bg:brightcyan fg:black"
-format = '[$output ]($style)'
 
 # -----------------------------------------------
 # Left Side Modules
 # -----------------------------------------------
+[custom.os_version]
+command = "awk -F= '/^VERSION_ID=/{gsub(/\"/,\"\",$2); print $2}' /etc/os-release"
+when = "test -f /etc/os-release"
+style = "bg:accent fg:black"
+format = '[$output ]($style)'
+
 [os]
 disabled = false
-format = '[$symbol](bg:brightcyan fg:black)'
+format = '[$symbol](bg:accent fg:black)'
 
-# Shows the Arch Linux logo natively
 [os.symbols]
 Arch = "󰣇 "
 Ubuntu = " "
 Macos = " "
-Redhat = "󱄛 "          # Standard Red Hat [web:145]
-RedHatEnterprise = "󱄛 "  # RHEL 7, 8, 9, 10 [web:145]
-Fedora = "󰣛 "          # Upstream Red Hat [web:145]
-CentOS = " "          # Downstream Red Hat [web:145]
-AlmaLinux = " "       # RHEL Clone
-RockyLinux = " "      # RHEL Clone
-Debian = "󰣚 "          # [web:145]
-Alpine = " "          # Often used in Docker containers [web:145]
-Mint = "󰣭 "            # [web:145]
-Windows = "󰍲 "         # Useful if you ever use WSL [web:145]
-Linux = "󰌽 "           # Fallback generic Tux penguin [web:145]
+Redhat = "󱄛 "
+RedHatEnterprise = "󱄛 "
+Fedora = "󰣛 "
+CentOS = " "
+AlmaLinux = " "
+RockyLinux = " "
+Debian = "󰣚 "
+Alpine = " "
+Mint = "󰣭 "
+Windows = "󰍲 "
+Linux = "󰌽 "
 
 [username]
 disabled = true
@@ -108,7 +102,7 @@ disabled = true
 [hostname]
 ssh_only = false
 trim_at = '.'
-format = '[$hostname ](bg:brightcyan fg:black)'
+format = '[$hostname ](bg:accent fg:black)'
 disabled = false
 
 [directory]
@@ -120,7 +114,7 @@ truncation_symbol = "…/"
 [git_branch]
 symbol = ""
 style = "bg:bg"
-format = '[[ $symbol $branch ](fg:brightcyan bg:bg)]($style)'
+format = '[[ $symbol $branch ](fg:accent bg:bg)]($style)'
 
 [git_status]
 style = "bg:bg"
@@ -149,12 +143,13 @@ format = '[[ $symbol($version )](fg:orange bg:bg)]($style)'
 [c]
 symbol = " "
 style = "bg:bg"
-format = '[[ $symbol($version )](fg:brightcyan bg:bg)]($style)'
+detect_extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'cxx']
+format = '[[ $symbol($version )](fg:accent bg:bg)]($style)'
 
 [cmake]
 symbol = " "
 style = "bg:bg"
-format = '[[ $symbol($version )](fg:brightcyan bg:bg)]($style)'
+format = '[[ $symbol($version )](fg:accent bg:bg)]($style)'
 
 [nodejs]
 symbol = "󰎙 "
@@ -220,27 +215,27 @@ format = '[[  $int ](fg:red bg:bg)]($style)'
 
 [time]
 disabled = false
-time_format = "%T" # 24-hour format: HH:MM:SS
+time_format = "%T"
 format = '[  $time ](bg:bg_highlight fg:fg)'
 
 [jobs]
 disabled = false
 symbol = "✦ "
-threshold = 1 # Shows as soon as 1+ background job exists
-style = "bg:brightcyan fg:black"
+threshold = 1
+style = "bg:accent fg:black"
 format = '[$symbol$number]($style)'
 
 [shlvl]
-disabled = true # Tmux makes it increase
+disabled = true
 symbol = " 󱆃"
-threshold = 2 # Hidden in normal shell (level 1), shows when inside subshells/tmux/nested sessions
-style = "bg:brightcyan fg:black"
+threshold = 2
+style = "bg:accent fg:black"
 format = '[$symbol$shlvl]($style)'
 
 [sudo]
 disabled = false
 symbol = "  "
-style = "bg:brightcyan fg:black"
+style = "bg:accent fg:black"
 format = '[$symbol]($style)'
 
 # -----------------------------------------------
@@ -248,10 +243,8 @@ format = '[$symbol]($style)'
 # -----------------------------------------------
 [character]
 disabled = false
-# Success arrow is now bright cyan (matches LazyVim's indentline color)
 success_symbol = '[❯](bold brightgreen)'
 error_symbol = '[❯](bold brightred)'
-vimcmd_symbol = '[❮](bold brightcyan)'
+vimcmd_symbol = '[❮](bold accent)'
 
-# TODO: alternate line color to see clearly which line is which
 # TODO: change theme to match tmux/nvim/zsh
