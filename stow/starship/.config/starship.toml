@@ -25,16 +25,28 @@ $git_status\
 $container\
 [](fg:bg)\
 $fill\
+[](fg:bg)\
 $rust\
-$nodejs\
 $c\
 $cmake\
+$nodejs\
+$bun\
+$deno\
+$python\
+$lua\
+$golang\
+$zig\
 $dart\
+$package\
+$docker_context\
 $cmd_duration\
 $status\
-[](fg:bg_highlight)\
+[](bg:bg fg:bg_highlight)\
 $time\
-[](fg:brightcyan bg:bg_highlight)\
+[](bg:bg_highlight fg:brightcyan)\
+$jobs\
+$shlvl\
+$sudo\
 [█](brightcyan)\
 $line_break\
 $character"""
@@ -128,40 +140,108 @@ symbol = ' '
 # -----------------------------------------------
 # Right Side Modules
 # -----------------------------------------------
-[rust] # See https://starship.rs/config/#rust
+[rust]
 disabled = false
 symbol = ' '
-format = '[$symbol($version )](fg:orange)'
-
-[nodejs]
-symbol = "󰎙 "
-format = '[$symbol($version )](fg:green)'
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:orange bg:bg)]($style)'
 
 [c]
 symbol = " "
-format = '[$symbol($version )](fg:brightcyan)'
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:brightcyan bg:bg)]($style)'
 
 [cmake]
 symbol = " "
-format = '[$symbol($version )](fg:brightcyan)'
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:brightcyan bg:bg)]($style)'
+
+[nodejs]
+symbol = "󰎙 "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:green bg:bg)]($style)'
+
+[bun]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:yellow bg:bg)]($style)'
+
+[deno]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:blue bg:bg)]($style)'
+
+[python]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:yellow bg:bg)]($style)'
+
+[lua]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:blue bg:bg)]($style)'
+
+[golang]
+symbol = "󰟓 "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:cyan bg:bg)]($style)'
+
+[zig]
+symbol = " "
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:orange bg:bg)]($style)'
 
 [dart]
 symbol = " "
-format = '[$symbol($version )](fg:cyan)'
+style = "bg:bg"
+format = '[[ $symbol($version )](fg:cyan bg:bg)]($style)'
+
+[package]
+symbol = "󰏗 "
+style = "bg:bg"
+format = '[[ $symbol$version ](fg:magenta bg:bg)]($style)'
+
+[docker_context]
+symbol = " "
+style = "bg:bg"
+only_with_files = true
+format = '[[ $symbol$context ](fg:blue bg:bg)]($style)'
 
 [cmd_duration]
-min_time = 2000 # Only shows if command took > 2 seconds
-format = '[  $duration ](fg:yellow)'
+min_time = 2000
+style = "bg:bg"
+format = '[[  $duration ](fg:yellow bg:bg)]($style)'
 
 [status]
 disabled = false
 success_symbol = ""
-format = '[  $int ](fg:red)'
+style = "bg:bg"
+format = '[[  $int ](fg:red bg:bg)]($style)'
 
 [time]
 disabled = false
 time_format = "%T" # 24-hour format: HH:MM:SS
 format = '[  $time ](bg:bg_highlight fg:fg)'
+
+[jobs]
+disabled = false
+symbol = "✦ "
+threshold = 1 # Shows as soon as 1+ background job exists
+style = "bg:brightcyan fg:black"
+format = '[$symbol$number]($style)'
+
+[shlvl]
+disabled = true # Tmux makes it increase
+symbol = " 󱆃"
+threshold = 2 # Hidden in normal shell (level 1), shows when inside subshells/tmux/nested sessions
+style = "bg:brightcyan fg:black"
+format = '[$symbol$shlvl]($style)'
+
+[sudo]
+disabled = false
+symbol = "  "
+style = "bg:brightcyan fg:black"
+format = '[$symbol]($style)'
 
 # -----------------------------------------------
 # The Prompt Line
