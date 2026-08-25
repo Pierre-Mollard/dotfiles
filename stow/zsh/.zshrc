@@ -54,6 +54,22 @@ bindkey "^[OA" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 bindkey "^[OB" down-line-or-beginning-search
 
+# Edit-command-line : Ctrl-X Ctrl-E (or 'v' in vi mode) to enter commands with $EDITOR
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
+bindkey -M vicmd 'v' edit-command-line
+
+# Tab completion with interactive tab selection
+zmodload zsh/complist
+autoload -Uz compinit && compinit
+## Enable interactive arrow-key selection in completion menus
+zstyle ':completion:*' menu select
+## Colorize completion lists matching file types
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+## Case-insensitive tab completion (matching lowercase to uppercase)
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
 # =============================================================================
 # 2. VIM MODE
 # =============================================================================
