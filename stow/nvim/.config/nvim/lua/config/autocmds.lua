@@ -20,3 +20,24 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
     end
   end,
 })
+
+-- Automatically clear the 'select' visual when leaving select mode (the tab suggestions, like to fill function args)
+local function stop_snippet_and_leave()
+  if vim.snippet and vim.snippet.active() then
+    vim.snippet.stop()
+  end
+  return "<Esc>"
+end
+
+vim.keymap.set(
+  { "i", "s" },
+  "<C-c>",
+  stop_snippet_and_leave,
+  { expr = true, silent = true, desc = "Stop snippet and return to Normal mode" }
+)
+vim.keymap.set(
+  { "i", "s" },
+  "<Esc>",
+  stop_snippet_and_leave,
+  { expr = true, silent = true, desc = "Stop snippet and return to Normal mode" }
+)
