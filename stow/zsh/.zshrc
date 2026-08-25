@@ -5,20 +5,27 @@
 # =============================================================================
 # History settings
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt APPEND_HISTORY          # Append to history file (don't overwrite)
-setopt SHARE_HISTORY           # Share history across multiple terminal windows
-setopt HIST_IGNORE_ALL_DUPS    # Don't record duplicate commands
-setopt HIST_REDUCE_BLANKS      # Remove extra blanks from commands
+HISTSIZE=50000
+SAVEHIST=50000
+
+setopt INC_APPEND_HISTORY        # Write to $HISTFILE immediately upon execution
+unsetopt SHARE_HISTORY           # Keep Up/Down arrow local to the active pane
+setopt EXTENDED_HISTORY          # Record timestamps (:start_time:elapsed;cmd)
+
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming
+setopt HIST_IGNORE_DUPS          # Don't record an entry if it matches the previous one
+setopt HIST_IGNORE_ALL_DUPS      # Remove older duplicates when adding a new entry
+setopt HIST_IGNORE_SPACE         # Don't save commands starting with a space (for secrets)
+setopt HIST_FIND_NO_DUPS         # Do not display duplicates during search
+setopt HIST_REDUCE_BLANKS        # Strip redundant whitespace
 
 # Better directory navigation (type '..' instead of 'cd ..')
 setopt AUTO_CD
 # No annoying beeps
 setopt NO_BEEP
 
+# zsh hook to alternate the starship accent color
 typeset -g _PROMPT_TOGGLE=0
-
 function _toggle_starship_color() {
    if (( _PROMPT_TOGGLE == 0 )); then
     _PROMPT_TOGGLE=1
@@ -28,9 +35,24 @@ function _toggle_starship_color() {
     export STARSHIP_CONFIG="$HOME/.config/starship/starship-variant.toml"
   fi
 }
-
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _toggle_starship_color
+
+# Bind Up/Down arrows to search history matching the current typed prefix
+## Load and register the prefix-search widgets
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+## Bind Up Arrow (covers normal escape, application mode, and terminfo lookup)
+[[ -n "${terminfo[kcuu1]}" ]] && bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[OA" up-line-or-beginning-search
+
+## Bind Down Arrow
+[[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
+bindkey "^[OB" down-line-or-beginning-search
 
 # =============================================================================
 # 2. VIM MODE
@@ -60,8 +82,8 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#565f89"
 bindkey '^F' autosuggest-accept
 
 # Restore standard Emacs shortcuts for history navigation in Insert mode
-bindkey '^P' up-history
-bindkey '^N' down-history
+bindkey '^P' up-line-or-beginning-search
+bindkey '^N' down-line-or-beginning-search
 bindkey '^R' history-incremental-search-backward # Ctrl+R to search history
 bindkey '^A' beginning-of-line                   # Ctrl+A to go to start of line
 bindkey '^E' end-of-line                         # Ctrl+E to go to end of line
