@@ -70,6 +70,9 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 ## Case-insensitive tab completion (matching lowercase to uppercase)
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
+# Force 'source' and '.' to complete normal files/directories only (othersize very long/lag on WSL)
+compdef _files source .
+
 # =============================================================================
 # 2. VIM MODE
 # =============================================================================
