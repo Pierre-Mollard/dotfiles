@@ -118,4 +118,6 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 export GIT_EDITOR=vim
 
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+
 eval "$(starship init zsh)"

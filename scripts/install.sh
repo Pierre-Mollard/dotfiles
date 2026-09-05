@@ -8,6 +8,10 @@ TARGET_DIR="${HOME}"
 
 stow --dir="$DOTFILES_DIR" --target="$TARGET_DIR" git tmux vim nvim zellij starship docker zsh
 
+# NOTE: only ssh config copy because of secrets...
+mkdir -p $TARGET_DIR/.ssh
+ln -sf $DOTFILES_DIR/ssh/config $TARGET_DIR/.ssh/config
+
 # NOTE: bash file are meant to be cherry-pick by hand based on local configuration
 
 # clone tokyonight in the nvim-lite cache

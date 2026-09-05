@@ -56,4 +56,7 @@ else
   fi
 fi
 
+## Rust components
+rustup component add rust-analyzer rust-src rustfmt clippy
+
 echo "==> Installation complete!"
