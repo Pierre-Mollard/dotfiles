@@ -1,2 +1,5 @@
 stow/docker/.docker/buildx
-stow/docker/.docker/buildx/*
+
+# external-wsl contains local symlink to windows for easier access
+# windows is not looking in WSL dir space otherwize it would be slow
+external-wsl/

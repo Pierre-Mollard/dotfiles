@@ -3,7 +3,7 @@
 # Global Settings
 # Default palette (will be toggled by the shell hook)
 palette = 'tokyo-night-cyan'
-add_newline = true
+add_newline = false
 command_timeout = 1000
 
 # -----------------------------------------------
@@ -246,5 +246,3 @@ disabled = false
 success_symbol = '[❯](bold brightgreen)'
 error_symbol = '[❯](bold brightred)'
 vimcmd_symbol = '[❮](bold accent)'
-
-# TODO: change theme to match tmux/nvim/zsh
