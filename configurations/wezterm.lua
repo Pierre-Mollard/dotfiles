@@ -87,11 +87,52 @@ config.window_padding = {
 	bottom = 6,
 }
 
+wezterm.on("toggle-opacity", function(window, pane)
+	local overrides = window:get_config_overrides() or {}
+
+	if overrides.window_background_opacity then
+		-- Restore the normal value from your main config.
+		overrides.window_background_opacity = nil
+		overrides.win32_system_backdrop = nil
+	else
+		-- Per-window transparent/Mica mode.
+		overrides.window_background_opacity = 0.85
+		overrides.win32_system_backdrop = "Mica"
+	end
+
+	window:set_config_overrides(overrides)
+end)
+
 config.keys = {
 	{
 		key = "w",
 		mods = "CTRL|SHIFT",
 		action = act.CloseCurrentTab({ confirm = false }),
+	},
+	{
+		key = "t",
+		mods = "CTRL|SHIFT",
+		action = act.EmitEvent("toggle-opacity"),
+	},
+	{
+		key = "=",
+		mods = "CTRL",
+		action = act.IncreaseFontSize,
+	},
+	{
+		key = "-",
+		mods = "CTRL",
+		action = act.DecreaseFontSize,
+	},
+	{
+		key = "0",
+		mods = "CTRL",
+		action = act.ResetFontSize,
+	},
+	{
+		key = "r",
+		mods = "CTRL|SHIFT",
+		action = act.ReloadConfiguration,
 	},
 }
 
@@ -122,7 +163,6 @@ return config
 
 -- TODO: make the theme switch?
 --
--- TODO: keybinding toggle transparent
--- TODO: keybinding toggle text size
 -- TODO: adust paddings
 -- TODO: test the tabbar bg and maybe remove/change it
+-- TODO: add font size to tab bar and other stuff
