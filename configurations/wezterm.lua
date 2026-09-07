@@ -83,8 +83,8 @@ config.use_fancy_tab_bar = false
 config.window_padding = {
 	left = 8,
 	right = 8,
-	top = 6,
-	bottom = 6,
+	top = 8,
+	bottom = 8,
 }
 
 wezterm.on("toggle-opacity", function(window, pane)
@@ -134,6 +134,16 @@ config.keys = {
 		mods = "CTRL|SHIFT",
 		action = act.ReloadConfiguration,
 	},
+	{
+		key = "v",
+		mods = "CTRL",
+		action = act.PasteFrom("Clipboard"),
+	},
+	{
+		key = "c",
+		mods = "CTRL|SHIFT",
+		action = act.CopyTo("Clipboard"),
+	},
 }
 
 config.front_end = "OpenGL"
@@ -159,10 +169,53 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 	return string.format(" %d: %s ", index, title)
 end)
 
+wezterm.on("update-status", function(window, pane)
+	local cells = {}
+
+	local effective = window:effective_config()
+
+	table.insert(cells, string.format("󰛖 %.1f", effective.font_size))
+
+	local opacity = effective.window_background_opacity or 1.0
+	table.insert(cells, string.format("󰗠 %d%%", math.floor(opacity * 100 + 0.5)))
+
+	-- Current effective font size. This respects Ctrl+= / Ctrl+- overrides.
+	table.insert(cells, string.format("󰛖 %.1f", window:effective_config().font_size))
+
+	-- Battery only appears on devices that expose one.
+	for _, battery in ipairs(wezterm.battery_info()) do
+		local icon = "󰁹"
+
+		if battery.state == "Charging" then
+			icon = "󰂄"
+		elseif battery.state_of_charge <= 0.15 then
+			icon = "󰂃"
+		elseif battery.state_of_charge <= 0.35 then
+			icon = "󰁺"
+		elseif battery.state_of_charge <= 0.60 then
+			icon = "󰁽"
+		elseif battery.state_of_charge <= 0.85 then
+			icon = "󰁿"
+		end
+
+		table.insert(cells, string.format("%s %d%%", icon, math.floor(battery.state_of_charge * 100)))
+	end
+
+	window:set_right_status(wezterm.format({
+		{
+			Background = { Color = "#161722" },
+		},
+		{
+			Foreground = { Color = "#7aa2f7" },
+		},
+		{
+			Text = "  " .. table.concat(cells, "   ") .. "  ",
+		},
+	}))
+end)
+
 return config
 
--- TODO: make the theme switch?
---
--- TODO: adust paddings
 -- TODO: test the tabbar bg and maybe remove/change it
--- TODO: add font size to tab bar and other stuff
+-- TODO: add font size to tab bar and other stuff (buggy)
+-- TODO: check nvim wezterm plugins
