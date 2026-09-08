@@ -1,8 +1,5 @@
 # 	Interactive behavior: aliases, functions, completions, key bindings, prompt, plugins
 
-# =============================================================================
-# 1. ZSH OPTIONS & HISTORY
-# =============================================================================
 # History settings
 HISTFILE=~/.zsh_history
 HISTSIZE=50000
@@ -23,6 +20,15 @@ setopt HIST_REDUCE_BLANKS        # Strip redundant whitespace
 setopt AUTO_CD
 # No annoying beeps
 setopt NO_BEEP
+
+# Partial line unfinished (when receiving data without \n ending yet moving to another line)
+# '%' char by default, here colored '⏎' with zsh escape sequence
+export PROMPT_EOL_MARK='%F{8}⏎%f'
+
+# LS_COLORS with vivid
+if command -v vivid >/dev/null 2>&1; then
+  export LS_COLORS="$(vivid generate tokyonight-night)"
+fi
 
 # zsh hook to alternate the starship accent color
 typeset -g _PROMPT_TOGGLE=0
@@ -66,24 +72,32 @@ autoload -Uz compinit && compinit
 ## Enable interactive arrow-key selection in completion menus
 zstyle ':completion:*' menu select
 ## Colorize completion lists matching file types
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 ## Case-insensitive tab completion (matching lowercase to uppercase)
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
 
 # Force 'source' and '.' to complete normal files/directories only (othersize very long/lag on WSL)
 compdef _files source .
 
-# =============================================================================
-# 2. VIM MODE
-# =============================================================================
+# Vi motions
 export ZVM_CURSOR_STYLE_ENABLED=false
 bindkey -v
 # Type 'jj' quickly in insert mode to switch to Vim Normal mode
 bindkey -M viins 'jj' vi-cmd-mode
 
-# =============================================================================
-# 3. PLUGINS (Autosuggestions & Syntax Highlighting)
-# =============================================================================
+# Avoid typing lag
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+# Prioritize valid completions for the current directory
+ZSH_AUTOSUGGEST_STRATEGY=(completion history)
+# Change autosuggestion ghost text color to match Tokyo Night's dark comment gray
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#565f89"
+# Sanity check (could be included in plugin) : clear suggestion when navigating history
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(up-line-or-beginning-search down-line-or-beginning-search)
+
 # Source plugins depending on your OS package manager paths
 if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     # Arch Linux paths
@@ -94,9 +108,6 @@ elif [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
-
-# Change autosuggestion ghost text color to match Tokyo Night's dark comment gray
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#565f89"
 
 # Use Ctrl+Space to accept the ghost text suggestion (doesn't conflict with Right Arrow)
 bindkey '^F' autosuggest-accept

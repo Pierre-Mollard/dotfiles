@@ -59,4 +59,7 @@ fi
 ## Rust components
 rustup component add rust-analyzer rust-src rustfmt clippy
 
+## LS_COLORS theme
+apt install vivid
+
 echo "==> Installation complete!"

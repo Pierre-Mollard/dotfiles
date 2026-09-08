@@ -52,12 +52,6 @@ If you clone this repo with HTTPS, use the script `scripts/git_repo_ssh.sh` to r
 gperf python3 python3-pip python3-venv cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
 stow
 
-## Offlines
-
-- [ ] add all deps for offline components like lazyvim with C/C++ LSP servers.
-- [ ] conf tmux more effecient
-- [ ] cleanup and add tmux plugin files (manual for now: <https://github.com/catppuccin/tmux>)
-
 ## Windows Terminal setup
 
 Background color with tokyonight : #16161e
@@ -74,3 +68,11 @@ docker run -it \
   -e TMUX_PANE=$TMUX_PANE \
   your-dev-image
 ```
+
+TODO: sync the theme of all stuffs
+- WEZTERM (theme)
+- TMUX (theme)
+- STARSHIP (theme)
+- ZSH (LS_COLOR with vivid)
+- NEOVIM (theme)
+- VIM (theme)

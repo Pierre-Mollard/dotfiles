@@ -6,7 +6,7 @@ PROJECT_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 DOTFILES_DIR="$PROJECT_DIR/stow"
 TARGET_DIR="${HOME}"
 
-stow --dir="$DOTFILES_DIR" --target="$TARGET_DIR" git tmux vim nvim zellij starship docker zsh
+stow --dir="$DOTFILES_DIR" --target="$TARGET_DIR" git tmux vim nvim zellij starship docker zsh vivid
 
 # NOTE: only ssh config copy because of secrets...
 mkdir -p $TARGET_DIR/.ssh
