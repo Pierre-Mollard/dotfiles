@@ -76,6 +76,7 @@ compdef _files source .
 # =============================================================================
 # 2. VIM MODE
 # =============================================================================
+export ZVM_CURSOR_STYLE_ENABLED=false
 bindkey -v
 # Type 'jj' quickly in insert mode to switch to Vim Normal mode
 bindkey -M viins 'jj' vi-cmd-mode

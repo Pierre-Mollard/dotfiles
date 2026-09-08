@@ -31,6 +31,17 @@ config.font = wezterm.font_with_fallback({
 })
 config.font_size = 13.5
 
+config.audible_bell = "Disabled"
+
+config.default_cursor_style = "BlinkingBlock"
+config.cursor_blink_rate = 800
+config.force_reverse_video_cursor = true
+
+config.enable_scroll_bar = false
+config.colors = {
+	scrollbar_thumb = TAB_BAR_HOVER_BG,
+}
+
 -- Two Tokyo Night variants. Only the WezTerm tab-bar colors differ.
 -- Each call returns an independent mutable scheme table.
 local flat_scheme = wezterm.color.get_builtin_schemes()["Tokyo Night"]
