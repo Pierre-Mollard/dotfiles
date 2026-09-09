@@ -2,7 +2,7 @@
 
 # Global Settings
 # Default palette (will be toggled by the shell hook)
-palette = 'tokyo-night-cyan'
+palette = "tokyo-night-cyan"
 add_newline = false
 command_timeout = 1000
 
@@ -64,6 +64,22 @@ bg_highlight = '#292e42'
 fg = '#c0caf5'
 black = '#090c0c'
 accent = '#2ac3de'       # Bright Cyan
+brightgreen = '#16C60C'
+brightred = '#FF3B30'
+
+[palettes.tokyo-night-orange]
+blue = '#7aa2f7'
+cyan = '#7dcfff'
+magenta = '#bb9af7'
+green = '#9ece6a'
+yellow = '#e0af68'
+orange = '#e69875'
+red = '#f7768e'
+bg = '#1a1b26'
+bg_highlight = '#292e42'
+fg = '#c0caf5'
+black = '#090c0c'
+accent = '#ff9e64'       # Bright Orange
 brightgreen = '#16C60C'
 brightred = '#FF3B30'
 

@@ -76,3 +76,5 @@ TODO: sync the theme of all stuffs
 - ZSH (LS_COLOR with vivid)
 - NEOVIM (theme)
 - VIM (theme)
+
+TEST: in testing:  alternating starship prompt color (may be annoying long term, will see)
