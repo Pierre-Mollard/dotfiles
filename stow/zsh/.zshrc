@@ -111,8 +111,10 @@ bindkey -M viins 'jj' vi-cmd-mode
 
 # Avoid typing lag
 ZSH_AUTOSUGGEST_USE_ASYNC=1
-# Prioritize valid completions for the current directory
-ZSH_AUTOSUGGEST_STRATEGY=(completion history)
+# Check history first, fall back to completion
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+# Do not suggest history commands for relative directory navigation
+ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd *|cd ..*)"
 # Change autosuggestion ghost text color to match Tokyo Night's dark comment gray
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#565f89"
 # Sanity check (could be included in plugin) : clear suggestion when navigating history
