@@ -262,6 +262,28 @@ return {
           end
         end,
         on_highlights = function(hl, c)
+          -- 1. Diff background blocks (used by inline diff, diffview, and vim diff)
+          hl.DiffAdd = { bg = "#1d3329" } -- Soft dark green tint
+          hl.DiffChange = { bg = "#332b20" } -- Soft dark amber/yellow tint
+          hl.DiffDelete = { bg = "#37222c" } -- Soft dark red/crimson tint
+          hl.DiffText = { bg = "#4e3d25" } -- Highlight for the exact modified word
+
+          -- 2. Gitsigns gutter bars and number column
+          hl.GitSignsAdd = { fg = c.green } -- Crisp green (#9ece6a)
+          hl.GitSignsChange = { fg = c.yellow } -- Crisp amber/orange (#e0af68)
+          hl.GitSignsDelete = { fg = c.red } -- Crisp red (#f7768e)
+
+          -- 3. Gitsigns inline full-line highlight (when toggle <leader>gc)
+          hl.GitSignsAddLn = { bg = "#1d3329" }
+          hl.GitSignsChangeLn = { bg = "#332b20" }
+          hl.GitSignsDeleteLn = { bg = "#37222c" }
+
+          -- 4. Gitsigns inline word diff
+          hl.GitSignsAddInline = { bg = "#29523c" }
+          hl.GitSignsChangeInline = { bg = "#5a4522" }
+          hl.GitSignsDeleteInline = { bg = "#592b35" }
+
+          -- Transparency section --
           if vim.g.transparent_enabled then
             -- 1. General Floats
             hl.NormalFloat = { bg = "NONE" }
