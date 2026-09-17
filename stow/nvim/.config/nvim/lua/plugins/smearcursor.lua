@@ -23,6 +23,6 @@ return {
     -- The core hacks to make it look right over text
     never_draw_over_target = true,
     hide_target_hack = true,
-    legacy_computing_symbols_support = true,
+    legacy_computing_symbols_support = false,
   },
 }

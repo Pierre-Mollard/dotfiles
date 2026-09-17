@@ -28,6 +28,7 @@ config.font = wezterm.font_with_fallback({
 	"JetBrains Mono",
 	"Symbols Nerd Font Mono",
 	"Nerd Font Symbols",
+	{ family = "Noto Sans Symbols 2" },
 })
 config.font_size = 13.5
 
