@@ -20,10 +20,10 @@ stow/
 │   └── dot-vimrc            # → ~/.vimrc
 ├── nvim/
 │   └── dot-config/
-│       └── nvim/        # → ~/.config/nvim/
+│       └── nvim/            # → ~/.config/nvim/
 └── tmux/
     └── dot-config/
-        └── tmux/        # → ~/.config/tmux/
+        └── tmux/            # → ~/.config/tmux/
 
 Using stow, all the package inside this directory will be symlink to HOME (~/).
 All dot-name will be converted to .name by stow using the --dotefiles argument.
@@ -70,6 +70,7 @@ docker run -it \
 ```
 
 TODO: sync the theme of all stuffs
+
 - WEZTERM (theme)
 - TMUX (theme)
 - STARSHIP (theme)
