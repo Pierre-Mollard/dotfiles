@@ -33,6 +33,7 @@ config.font = wezterm.font_with_fallback({
 config.font_size = 13.5
 
 config.audible_bell = "Disabled"
+config.warn_about_missing_glyphs = false
 
 config.default_cursor_style = "BlinkingBlock"
 config.cursor_blink_rate = 800
