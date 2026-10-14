@@ -154,4 +154,7 @@ export GIT_EDITOR=vim
 
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
+# Source keys (not in dotfile conf)
+[[ -f ~/.zkeys ]] && source ~/.zkeys
+
 eval "$(starship init zsh)"

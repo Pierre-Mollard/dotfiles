@@ -18,7 +18,7 @@ return {
             if success then
               progress_handle = progress.handle.create({
                 title = "CodeCompanion",
-                lsp_client = { name = "Ollama" },
+                lsp_client = { name = "Gemini" },
                 message = "Thinking...",
               })
             end
@@ -35,7 +35,7 @@ return {
     opts = {
       strategies = {
         chat = {
-          adapter = "ollama",
+          adapter = "gemini",
           keymaps = {
             close = {
               modes = {
@@ -56,24 +56,28 @@ return {
             },
           },
         },
-        inline = { adapter = "ollama" },
-        agent = { adapter = "ollama" },
+        inline = { adapter = "gemini" },
+        agent = { adapter = "gemini" },
       },
       adapters = {
-        ollama = function()
-          local ollama_url = vim.env.OLLAMA_HOST or "http://127.0.0.1:11434"
-
-          return require("codecompanion.adapters").extend("ollama", {
-            env = {
-              url = ollama_url,
-            },
-            schema = {
-              model = {
-                default = "qwen2.5-coder:7b",
+        http = {
+          gemini = function()
+            return require("codecompanion.adapters").extend("gemini", {
+              env = {
+                api_key = "cmd:echo $GEMINI_API_KEY",
               },
-            },
-          })
-        end,
+              schema = {
+                model = {
+                  default = "gemini-3.8-flash",
+                  choices = {
+                    ["gemini-3.8-flash"] = { opts = { can_reason = true } },
+                    ["gemini-2.5-flash"] = { opts = { can_reason = true } },
+                  },
+                },
+              },
+            })
+          end,
+        },
       },
       display = {
         chat = {
@@ -149,7 +153,7 @@ return {
       },
       notification = {
         window = {
-          winblend = 0, -- Set to 0 to respect your transparent Tokyo Night theme
+          winblend = 0, -- Respects transparent themes
         },
       },
     },
