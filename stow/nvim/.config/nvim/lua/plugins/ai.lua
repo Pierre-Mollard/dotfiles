@@ -1,5 +1,56 @@
 return {
-  -- 1. CodeCompanion Plugin
+  -- 1. OpenCode Neovim Bridge (Primary Assistant via side tmux pane)
+  {
+    "nickjvandyke/opencode.nvim",
+    version = "*",
+    event = "VeryLazy",
+    dependencies = {
+      -- Snacks enhances the input prompts and fuzzy picker if you use LazyVim defaults
+      {
+        "folke/snacks.nvim",
+        optional = true,
+        opts = {
+          input = {},
+          picker = {
+            actions = {
+              opencode_send = function(...)
+                return require("opencode").snacks_picker_send(...)
+              end,
+            },
+            win = {
+              input = {
+                keys = {
+                  ["<a-a>"] = { "opencode_send", mode = { "n", "i" } },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    config = function()
+      vim.o.autoread = true -- Automatically reload buffers when OpenCode writes to disk
+
+      -- OpenCode Keymaps mapped directly under <leader>a
+      vim.keymap.set({ "n", "x" }, "<leader>aa", function()
+        require("opencode").ask("@this: ", { submit = true })
+      end, { desc = "Ask OpenCode (@this)" })
+
+      vim.keymap.set({ "n", "x" }, "<leader>as", function()
+        require("opencode").select()
+      end, { desc = "Select OpenCode Action" })
+
+      vim.keymap.set({ "n", "t" }, "<leader>at", function()
+        require("opencode").toggle()
+      end, { desc = "Toggle / Focus OpenCode" })
+
+      vim.keymap.set({ "n", "x" }, "<leader>ao", function()
+        return require("opencode").operator("@this ")
+      end, { desc = "Add Range to OpenCode", expr = true })
+    end,
+  },
+
+  -- 2. CodeCompanion Plugin (Fallback under <leader>ac*)
   {
     "olimorris/codecompanion.nvim",
     dependencies = {
@@ -170,35 +221,28 @@ return {
       },
     },
     keys = {
-      -- Chat operations
-      { "<leader>ac", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "v" }, desc = "Toggle Chat" },
-      { "<leader>aa", "<cmd>CodeCompanionChat Add<cr>", mode = "v", desc = "Add to Chat" },
-
-      -- Inline & Actions
-      { "<leader>ai", "<cmd>CodeCompanion<cr>", mode = { "n", "v" }, desc = "Inline Prompt" },
-      { "<leader>ax", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, desc = "Action Palette" },
-      { "<leader>af", "<cmd>CodeCompanion /fix<cr>", mode = { "n", "v" }, desc = "Fix Diagnostic" },
+      -- Nested under <leader>ac to keep top-level bindings for OpenCode
+      { "<leader>acc", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "v" }, desc = "Toggle Chat (CodeCompanion)" },
+      { "<leader>aca", "<cmd>CodeCompanionChat Add<cr>", mode = "v", desc = "Add to Chat (CodeCompanion)" },
+      { "<leader>aci", "<cmd>CodeCompanion<cr>", mode = { "n", "v" }, desc = "Inline Prompt (CodeCompanion)" },
+      { "<leader>acx", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, desc = "Actions Palette (CodeCompanion)" },
     },
   },
 
-  -- 2. WhichKey Integration for <leader>a
+  -- 3. WhichKey Integration for <leader>a
   {
     "folke/which-key.nvim",
     optional = true,
     opts = {
       spec = {
-        {
-          "<leader>a",
-          group = "ai",
-          icon = { icon = "󰚩", color = "white" },
-          mode = { "n", "v" },
-        },
+        { "<leader>a", group = "ai", icon = { icon = "󰚩", color = "white" }, mode = { "n", "v" } },
+        { "<leader>ac", group = "codecompanion", icon = { icon = "󰘦", color = "cyan" }, mode = { "n", "v" } },
       },
     },
     opts_extend = { "spec" },
   },
 
-  -- 3. Fidget to show loading notification
+  -- 4. Fidget to show loading notification
   {
     "j-hui/fidget.nvim",
     opts = {
