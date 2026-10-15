@@ -13,7 +13,6 @@ return {
         pattern = "CodeCompanionRequest*",
         callback = function(request)
           if request.match == "CodeCompanionRequestStarted" then
-            -- Safely create a new progress notification in Fidget
             local success, progress = pcall(require, "fidget.progress")
             if success then
               progress_handle = progress.handle.create({
@@ -23,7 +22,6 @@ return {
               })
             end
           elseif request.match == "CodeCompanionRequestFinished" then
-            -- Close the notification when the AI finishes
             if progress_handle then
               progress_handle:finish()
               progress_handle = nil
@@ -36,27 +34,35 @@ return {
       strategies = {
         chat = {
           adapter = "gemini",
+          roles = {
+            llm = "Gemini",
+            user = "Me",
+          },
+          tools = {
+            ["files"] = {
+              callback = "strategies.chat.tools.files",
+              description = "Inspect workspace files",
+            },
+          },
           keymaps = {
             close = {
-              modes = {
-                n = "q",
-                i = "<C-x>",
-              },
+              modes = { n = "q", i = "<C-x>" },
               index = 3,
               callback = "keymaps.close",
               description = "Close Chat",
             },
             stop = {
-              modes = {
-                n = "<C-c>",
-              },
+              modes = { n = "<C-c>" },
               index = 4,
               callback = "keymaps.stop",
               description = "Stop Request",
             },
           },
         },
-        inline = { adapter = "gemini" },
+        inline = {
+          adapter = "gemini",
+          layout = "vertical", -- View diffs vertically next to original buffer
+        },
         agent = { adapter = "gemini" },
       },
       adapters = {
@@ -70,8 +76,8 @@ return {
                 model = {
                   default = "gemini-3.8-flash",
                   choices = {
-                    ["gemini-3.8-flash"] = { opts = { can_reason = true } },
                     ["gemini-2.5-flash"] = { opts = { can_reason = true } },
+                    ["gemini-1.5-flash"] = { opts = { can_reason = false } },
                   },
                 },
               },
@@ -80,10 +86,17 @@ return {
         },
       },
       display = {
+        diff = {
+          enabled = true,
+          close_chat_at = 240, -- Auto-format diff presentation
+          layout = "vertical",
+        },
         chat = {
           window = {
             layout = "vertical",
+            width = 0.35,
           },
+          show_settings = false,
         },
       },
       prompt_library = {
@@ -91,16 +104,13 @@ return {
           strategy = "chat",
           description = "Explain the highlighted code in extreme detail",
           opts = {
-            index = 1,
-            is_default = true,
-            is_slash_cmd = false,
             short_name = "explain",
             auto_submit = true,
           },
           prompts = {
             {
               role = "system",
-              content = "You are a senior developer. Explain the following code to a junior developer. Be extremely verbose.",
+              content = "You are a senior systems engineer. Explain the code clearly with performance and memory considerations.",
             },
             {
               role = "user",
@@ -108,6 +118,51 @@ return {
                 -- Fallback to an empty string if there is no selection
                 local text = context.selection or ""
                 return "Explain this code:\n\n```" .. context.filetype .. "\n" .. text .. "\n```"
+              end,
+            },
+          },
+        },
+        ["Fix LSP Diagnostic"] = {
+          strategy = "inline",
+          description = "Fix compile or linter issues at the cursor",
+          opts = {
+            short_name = "fix",
+            auto_submit = true,
+          },
+          prompts = {
+            {
+              role = "system",
+              content = "You are an expert compiler engineer. Correct the code to eliminate the reported diagnostics without altering logic.",
+            },
+            {
+              role = "user",
+              content = function(context)
+                return "Fix the diagnostic errors in this code selection:\n\n"
+                  .. "```"
+                  .. context.filetype
+                  .. "\n"
+                  .. context.selection
+                  .. "\n```\n\n"
+                  .. "Diagnostics:\n"
+                  .. vim.inspect(context.diagnostics)
+              end,
+            },
+          },
+        },
+        ["Generate Conventional Commit"] = {
+          strategy = "chat",
+          description = "Draft a conventional commit message from staged git diff",
+          opts = {
+            short_name = "commit",
+            auto_submit = true,
+          },
+          prompts = {
+            {
+              role = "user",
+              content = function()
+                return "Write a conventional commit message for the following git diff:\n\n```diff\n"
+                  .. vim.fn.system("git diff --staged")
+                  .. "\n```"
               end,
             },
           },
@@ -122,6 +177,7 @@ return {
       -- Inline & Actions
       { "<leader>ai", "<cmd>CodeCompanion<cr>", mode = { "n", "v" }, desc = "Inline Prompt" },
       { "<leader>ax", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, desc = "Action Palette" },
+      { "<leader>af", "<cmd>CodeCompanion /fix<cr>", mode = { "n", "v" }, desc = "Fix Diagnostic" },
     },
   },
 

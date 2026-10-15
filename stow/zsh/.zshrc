@@ -158,3 +158,6 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 [[ -f ~/.zkeys ]] && source ~/.zkeys
 
 eval "$(starship init zsh)"
+
+# opencode
+export PATH=/home/pierre/.opencode/bin:$PATH
