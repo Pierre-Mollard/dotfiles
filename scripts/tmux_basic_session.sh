@@ -9,11 +9,15 @@ if [ "$SESSIONEXISTS" = "" ]; then
   tmux new-session -d -s $SESSION -n "DEV"
   tmux send-keys -t $SESSION:0 'nvim .' C-m
 
-  tmux new-window -t $SESSION:1 -n "PRD"
+  tmux new-window -t $SESSION:1 -n "AI"
+  tmux send-keys -t $SESSION:1 'claude' C-m
 
-  tmux new-window -t $SESSION:2 -n "TST"
+  tmux new-window -t $SESSION:2 -n "PRD"
 
-  tmux new-window -t $SESSION:3 -n "GIT"
+  tmux new-window -t $SESSION:3 -n "TST"
+
+  tmux new-window -t $SESSION:4 -n "GIT"
+  tmux send-keys -t $SESSION:4 'git status' C-m
 
 fi
 

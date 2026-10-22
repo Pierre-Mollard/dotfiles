@@ -1,4 +1,4 @@
-## All utils used
+# All utils used
 
 - fzf (fuzzy-finder)
 - lazygit
@@ -8,3 +8,4 @@
 - stow
 - clang (clangd)
 - starship
+- claude code / open code
