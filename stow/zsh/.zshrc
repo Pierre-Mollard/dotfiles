@@ -117,8 +117,6 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_HISTORY_IGNORE="(cd *|cd ..*)"
 # Change autosuggestion ghost text color to match Tokyo Night's dark comment gray
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#565f89"
-# Sanity check (could be included in plugin) : clear suggestion when navigating history
-ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(up-line-or-beginning-search down-line-or-beginning-search)
 
 # Source plugins depending on your OS package manager paths
 if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
@@ -130,6 +128,9 @@ elif [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
+
+# Clear suggestion when navigating history. Must come after sourcing
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(up-line-or-beginning-search down-line-or-beginning-search)
 
 # Use Ctrl+Space to accept the ghost text suggestion (doesn't conflict with Right Arrow)
 bindkey '^F' autosuggest-accept

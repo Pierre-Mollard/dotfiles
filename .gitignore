@@ -4,6 +4,7 @@ stow/docker/.docker/.token*
 # claude code: only settings.json / CLAUDE.md are tracked, never local state or creds
 stow/claude/.claude/settings.local.json
 stow/claude/.claude/.credentials.json
+.claude/
 
 # external-wsl contains local symlink to windows for easier access
 # windows is not looking in WSL dir space otherwize it would be slow

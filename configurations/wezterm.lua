@@ -30,7 +30,7 @@ config.font = wezterm.font_with_fallback({
 	"Nerd Font Symbols",
 	{ family = "Noto Sans Symbols 2" },
 })
-config.font_size = 13.5
+config.font_size = 13
 
 config.audible_bell = "Disabled"
 config.warn_about_missing_glyphs = false

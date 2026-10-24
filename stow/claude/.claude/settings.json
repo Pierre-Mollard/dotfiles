@@ -23,6 +23,14 @@
     "type": "command",
     "command": "~/.claude/scripts/statusline.sh"
   },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [{ "type": "command", "command": "~/.claude/scripts/bell.sh" }]
+      }
+    ]
+  },
+  "preferredNotifChannel": "terminal_bell",
   "theme": "dark",
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": true
