@@ -19,6 +19,10 @@
       "Read(~/.ssh/**)"
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/scripts/statusline.sh"
+  },
   "theme": "dark",
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": true

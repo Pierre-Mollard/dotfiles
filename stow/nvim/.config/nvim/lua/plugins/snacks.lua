@@ -11,6 +11,10 @@ return {
             -- Keeps focus in your main window when the explorer opens
             enter = false,
           },
+          files = {
+            -- Show dotfiles in <leader><space> / <leader>ff (gitignored files stay hidden)
+            hidden = true,
+          },
         },
         win = {
           -- 1. SEARCH INPUT FIELD
