@@ -19,20 +19,32 @@
       "Read(~/.ssh/**)"
     ]
   },
+  "model": "opus",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/bell.sh"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/scripts/statusline.sh"
   },
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [{ "type": "command", "command": "~/.claude/scripts/bell.sh" }]
-      }
-    ]
-  },
-  "preferredNotifChannel": "terminal_bell",
-  "theme": "dark",
   "enabledPlugins": {
-    "lua-lsp@claude-plugins-official": true
-  }
+    "lua-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
+  "modelSettings": {
+    "claude-sonnet-5-5": {
+      "effortLevel": "medium"
+    }
+  },
+  "theme": "dark",
+  "preferredNotifChannel": "terminal_bell"
 }
