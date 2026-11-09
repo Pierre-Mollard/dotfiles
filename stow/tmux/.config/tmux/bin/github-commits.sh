@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# GitHub commits-today segment for the tmux status-right (see pmo_tmux.conf).
+# GitHub commits-today segment for the tmux status-right (see ~/.tmux.conf).
 #
 # Display:
 #   12      commits made today (public + private)
@@ -73,6 +73,23 @@ filter='.data.viewer
       + ([.repositories.nodes[].defaultBranchRef.target.history.totalCount // 0] | add // 0)
     end'
 
+# Print the segment from the current day, count and state
+show() {
+  # Use the count only if it's from today, since yesterday's means nothing now
+  if [ "$day" = "$today" ]; then
+    shown=$count
+  else
+    shown="--"
+  fi
+
+  # tmux applies the #[...] colour itself
+  if [ "$state" = "broken" ]; then
+    echo "#[fg=red]󰀦 $shown"
+  else
+    echo "$shown"
+  fi
+}
+
 # Create the cache folder if it doesn't exist yet
 mkdir -p "${f%/*}"
 # Load the previous result, if there is one
@@ -82,6 +99,10 @@ last=$(stat -c %Y "$f" 2>/dev/null || echo 0)
 
 # Only call GitHub once the last attempt is at least $ttl seconds old
 if [ $(($(date +%s) - last)) -ge "$ttl" ]; then
+  # Print the cached value now: tmux shows the last line it got, and until it
+  # gets one it draws a long "not ready" message over the bar
+  show
+
   # Mark the attempt before fetching: a failure then waits for the next $ttl
   # instead of being retried every second
   touch "$f"
@@ -117,16 +138,4 @@ if [ $(($(date +%s) - last)) -ge "$ttl" ]; then
   mv -f "$f.tmp" "$f"
 fi
 
-# Use the count only if it's from today, since yesterday's means nothing now
-if [ "$day" = "$today" ]; then
-  shown=$count
-else
-  shown="--"
-fi
-
-# Print the segment: tmux applies the #[...] colour itself
-if [ "$state" = "broken" ]; then
-  echo "#[fg=red]󰀦 $shown"
-else
-  echo "$shown"
-fi
+show

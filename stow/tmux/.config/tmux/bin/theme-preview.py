@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 theme = sys.argv[1]
-path = Path.home() / ".config/tmux/plugins/pmo/themes" / f"{theme}_tmux.conf"
+path = Path.home() / ".config/tmux/themes" / f"{theme}_tmux.conf"
 
 print(f"Theme: {theme}\n")
 

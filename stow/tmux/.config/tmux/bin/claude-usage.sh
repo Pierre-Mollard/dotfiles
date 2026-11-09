@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Claude 5h usage segment for the tmux status-right (see pmo_tmux.conf).
+# Claude 5h usage segment for the tmux status-right (see ~/.tmux.conf).
 #
 # Claude Code's statusline (~/.claude/scripts/statusline.sh) writes the cache
 # file below on every message update. It holds one line:
