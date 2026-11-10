@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # Claude 5h usage segment for the tmux status-right (see ~/.tmux.conf).
 #
-# Claude Code's statusline (~/.claude/scripts/statusline.sh) writes the cache
+# Claude Code's statusline (~/.claude/scripts/statusline.py) writes the cache
 # file below on every message update. It holds one line:
 #   "<used_percent> <resets_at_epoch>"   e.g. "42 1761318000"
 # tmux calls this script every status-interval, so it stays plain sh and only

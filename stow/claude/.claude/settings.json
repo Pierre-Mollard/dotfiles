@@ -34,7 +34,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "~/.claude/scripts/statusline.sh"
+    "command": "~/.claude/scripts/statusline.py"
   },
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": true,
