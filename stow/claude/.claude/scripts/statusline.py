@@ -41,13 +41,23 @@ STATE_VERSION = 2  # bump when ContextBreakdown's cached state changes shape
 RESET = "\033[0m"
 
 
-def fg(n):
-    return f"\033[38;5;{n}m"
+def fg(hex_color):
+    r, g, b = (int(hex_color[i:i + 2], 16) for i in (1, 3, 5))
+    return f"\033[38;2;{r};{g};{b}m"
 
 
-GREY, BLUE, CYAN, MAGENTA, GREEN, YELLOW, RED, ORANGE, PURPLE = (
-    fg(245), fg(75), fg(80), fg(176), fg(114), fg(221), fg(203), fg(215), fg(141)
-)
+# Tokyo Night (night) palette, matching ~/.claude/themes/tokyonight.json and nvim.
+# Foreground only: the terminal background stays transparent.
+GREY = fg("#737aa2")  # dark5: second-tier info
+FAINT = fg("#414868")  # terminal_black: empty bar cells
+BLUE = fg("#7aa2f7")
+CYAN = fg("#7dcfff")
+MAGENTA = fg("#bb9af7")
+PURPLE = fg("#9d7cd8")
+GREEN = fg("#9ece6a")
+YELLOW = fg("#e0af68")
+ORANGE = fg("#ff9e64")
+RED = fg("#f7768e")
 
 ICON = {
     "model": "\U000f06a9",  # 󰚩
@@ -68,11 +78,12 @@ SEP = f" {GREY}·{RESET} "
 
 # Context categories, in bar order: (key, icon, color)
 CATEGORIES = (
-    ("system", "\U000f0493", GREY),  # 󰒓
-    ("tools", "", BLUE),  #
-    ("mcp", "\U000f0431", CYAN),  # 󰐱
-    ("memory", "", PURPLE),  #
-    ("messages", "\U000f0361", ORANGE),  # 󰍡
+    # muted Tokyo Night (75% toward the background): shared by the bar and the legend icons
+    ("system", "\U000f0493", fg("#565f89")),  # 󰒓 comment
+    ("tools", "\uf0ad", fg("#6280c3")),  #  blue
+    ("mcp", "\U000f0431", fg("#64a2c9")),  # 󰐱 cyan
+    ("memory", "\uf02d", fg("#7c64ac")),  #  purple
+    ("messages", "\U000f0361", fg("#c67d54")),  # 󰍡 orange
 )
 
 
@@ -300,14 +311,14 @@ def context_bar(parts, used, size):
     if not parts:
         pct = used / size * 100
         filled = min(BAR_WIDTH, round(pct / 100 * BAR_WIDTH))
-        return f"{level_color(pct)}{'▰' * filled}{GREY}{'▱' * (BAR_WIDTH - filled)}{RESET}"
+        return f"{level_color(pct)}{'▰' * filled}{FAINT}{'▱' * (BAR_WIDTH - filled)}{RESET}"
     out, cum, cells = "", 0, 0
     for key, _, color in CATEGORIES:
         cum += parts[key]
         end = min(BAR_WIDTH, round(cum / size * BAR_WIDTH))
         out += color + "▰" * (end - cells)
         cells = end
-    return f"{out}{GREY}{'▱' * (BAR_WIDTH - cells)}{RESET}"
+    return f"{out}{FAINT}{'▱' * (BAR_WIDTH - cells)}{RESET}"
 
 
 def line_usage(d):
@@ -324,10 +335,11 @@ def line_usage(d):
     left = (f"{ICON['ctx']} {context_bar(parts, used, size)} {level_color(pct)}{pct:.0f}%{RESET} "
             f"{tokens(used)}{GREY}/{tokens(size)}{RESET}")
     if parts:
-        legend = " ".join(f"{icon} {tokens(parts[key])}"
-                          for key, icon, _ in CATEGORIES
+        # second-tier info: grey numbers, icons in their bar color
+        legend = " ".join(f"{color}{icon}{GREY} {tokens(parts[key])}"
+                          for key, icon, color in CATEGORIES
                           if key != "mcp" or parts[key])
-        left += f" {GREY}[{legend}]{RESET}"  # second-tier info: plain grey
+        left += f" {GREY}[{legend}{GREY}]{RESET}"
 
     right = []
     limits = d.get("rate_limits") or {}

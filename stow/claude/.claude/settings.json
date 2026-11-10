@@ -45,6 +45,6 @@
       "effortLevel": "medium"
     }
   },
-  "theme": "dark",
+  "theme": "custom:tokyonight",
   "preferredNotifChannel": "terminal_bell"
 }
