@@ -13,6 +13,8 @@ f="$HOME/.cache/claude/usage"
 [ -r "$f" ] || { echo "--"; exit 0; }
 
 read -r pct reset <"$f"
+# Empty or unreadable line: same as no cache
+[ -n "$pct" ] || { echo "--"; exit 0; }
 
 # The cache only refreshes while Claude is in use; once the 5h window's reset
 # time has passed the stored value is stale, so the real usage is back to 0

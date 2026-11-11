@@ -27,7 +27,6 @@ config.default_domain = "WSL:Ubuntu"
 config.font = wezterm.font_with_fallback({
 	"JetBrains Mono",
 	"Symbols Nerd Font Mono",
-	"Nerd Font Symbols",
 	{ family = "Noto Sans Symbols 2" },
 })
 config.font_size = 13
@@ -170,7 +169,6 @@ wezterm.on("toggle-opacity", function(window, pane)
 	if opacity < 1.0 then
 		overrides.window_background_opacity = 1.0
 		overrides.win32_system_backdrop = "Disable"
-		overrides.win32_acrylic_accent_color = nil
 	else
 		overrides.window_background_opacity = 0.85
 		overrides.win32_system_backdrop = "Acrylic"
@@ -240,11 +238,8 @@ config.keys = {
 	},
 
 	-- Clipboard: plain Ctrl+C remains SIGINT for tmux, the shell, and Neovim.
-	{
-		key = "v",
-		mods = "CTRL",
-		action = act.PasteFrom("Clipboard"),
-	},
+	-- Plain Ctrl+V is left alone too (Neovim block visual, Claude Code image paste);
+	-- paste with WezTerm's default Ctrl+Shift+V.
 	{
 		key = "c",
 		mods = "CTRL|SHIFT",
