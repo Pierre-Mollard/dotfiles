@@ -20,6 +20,9 @@
     ]
   },
   "model": "opus",
+  "env": {
+    "CLAUDE_CODE_TMUX_TRUECOLOR": "1"
+  },
   "hooks": {
     "Stop": [
       {
