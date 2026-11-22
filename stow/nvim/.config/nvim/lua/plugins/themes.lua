@@ -11,7 +11,7 @@ local themes = {
   duskhaven = false,
 }
 
-vim.g.transparent_enabled = true -- Keep track of state globally so we can toggle
+vim.g.transparent_enabled = false -- Keep track of state globally so we can toggle
 
 local function current_colorscheme()
   return themes.catppuccin and "catppuccin-frappe"

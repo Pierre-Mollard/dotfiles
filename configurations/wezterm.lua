@@ -25,6 +25,7 @@ config.default_domain = "WSL:Ubuntu"
 
 -- Font
 config.font = wezterm.font_with_fallback({
+	"JetBrainsMono Nerd Font",
 	"JetBrains Mono",
 	"Symbols Nerd Font Mono",
 	{ family = "Noto Sans Symbols 2" },
@@ -119,11 +120,10 @@ config.color_schemes = {
 -- Default scheme for new WezTerm windows.
 config.color_scheme = FLAT_SCHEME
 
--- Windows 10: Acrylic is the compatible blurred transparency effect.
--- This is the default appearance. Ctrl+Shift+T toggles the current window
--- between this mode and opaque mode.
-config.window_background_opacity = 0.85
-config.win32_system_backdrop = "Acrylic"
+-- Default to opaque windows. Ctrl+Shift+T toggles the current window
+-- between opaque mode and Windows 10-compatible Acrylic transparency.
+config.window_background_opacity = 1.0
+config.win32_system_backdrop = "Disable"
 config.win32_acrylic_accent_color = TERMINAL_BG
 
 -- Integrated Windows controls in the WezTerm tab bar.
@@ -141,11 +141,29 @@ config.integrated_title_buttons = {
 config.enable_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = false
 config.use_fancy_tab_bar = false
+config.show_new_tab_button_in_tab_bar = true
+config.tab_bar_style = {
+	new_tab = " " .. wezterm.nerdfonts.md_fullscreen .. " ",
+	new_tab_hover = " " .. wezterm.nerdfonts.md_fullscreen .. " ",
+	window_close = " ×",
+	window_close_hover = " ×",
+}
+
+-- Repurpose the new-tab button: left-click toggles fullscreen,
+-- right-click opens a new tab in the active domain.
+wezterm.on("new-tab-button-click", function(window, pane, button)
+	if button == "Left" then
+		window:toggle_fullscreen()
+	elseif button == "Right" then
+		window:perform_action(act.SpawnTab("CurrentPaneDomain"), pane)
+	end
+	return false
+end)
 
 config.window_padding = {
 	left = 8,
 	right = 8,
-	top = 8,
+	top = 4,
 	bottom = 8,
 }
 
@@ -213,6 +231,11 @@ config.keys = {
 		key = "r",
 		mods = "CTRL|SHIFT",
 		action = act.ReloadConfiguration,
+	},
+	{
+		key = "v",
+		mods = "CTRL",
+		action = act.PasteFrom("Clipboard"),
 	},
 
 	-- Native font zoom: faster than managing font-size config overrides.

@@ -1,5 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "CLAUDE_CODE_TMUX_TRUECOLOR": "1"
+  },
   "permissions": {
     "allow": [
       "Bash(git status:*)",
@@ -20,9 +23,6 @@
     ]
   },
   "model": "opus",
-  "env": {
-    "CLAUDE_CODE_TMUX_TRUECOLOR": "1"
-  },
   "hooks": {
     "Stop": [
       {
@@ -46,6 +46,9 @@
   "modelSettings": {
     "claude-sonnet-5-5": {
       "effortLevel": "medium"
+    },
+    "claude-haiku-5-5": {
+      "effortLevel": "low"
     }
   },
   "theme": "custom:tokyonight",
