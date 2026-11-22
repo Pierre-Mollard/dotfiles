@@ -29,6 +29,26 @@ Using stow, all the package inside this directory will be symlink to HOME (~/).
 All dot-name will be converted to .name by stow using the --dotefiles argument.
 (not working so keeping .config)
 
+## Ghostty on Arch Linux
+
+From the root of this repo:
+
+```bash
+sudo pacman -S --needed ghostty stow
+stow -d stow -t "$HOME" ghostty
+```
+
+This links the config to `~/.config/ghostty/config`. To use Ghostty with
+Hyprland's existing terminal shortcut, set `$terminal = ghostty` in
+`~/.config/hypr/hyprland.conf`.
+
+For the full Arch setup (Ghostty, CLI utilities, C and Rust tooling, and
+LazyVim dependencies), run `bash scripts/install_arch.sh` as your regular user.
+The script installs `clangd` and `rust-analyzer` system-wide; LazyVim's Mason
+installs the other configured language servers when you open Neovim. Cargo
+installs `xcp` in `~/.cargo/bin` by default, so add that directory to your
+shell's `PATH` if it isn't already there.
+
 ## Keys Handling
 
 To generate keys for Github :

@@ -1,0 +1,4 @@
+# Keep Ghostty's bundled font and default shell so this works on a fresh install.
+font-size = 12
+window-padding-x = 8
+window-padding-y = 8

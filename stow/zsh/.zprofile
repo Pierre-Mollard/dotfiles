@@ -40,3 +40,8 @@ grep() {
     command grep --color=auto "$@"
   fi
 }
+
+# For arch linux with hyprland
+if [[ -z "$WAYLAND_DISPLAY" && "$(tty)" == "/dev/tty1" ]]; then
+       exec start-hyprland
+fi
