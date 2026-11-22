@@ -148,6 +148,7 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias gg="~/projects/dotfiles/scripts/tmux_basic_session.sh"
+alias help_hyprland="~/projects/dotfiles/scripts/help_hyprland.zh"
 
 export VISUAL=vim
 export EDITOR="$VISUAL"

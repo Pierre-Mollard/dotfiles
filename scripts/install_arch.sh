@@ -3,7 +3,7 @@
 set -e
 
 sudo pacman -S --needed \
-  ghostty stow lsd vivid fzf \
+  ghostty xdg-terminal-exec waybar ttf-jetbrains-mono-nerd stow lsd vivid fzf \
   base-devel cmake ninja gdb \
   clang rust rust-analyzer \
   neovim git ripgrep fd tree-sitter-cli \

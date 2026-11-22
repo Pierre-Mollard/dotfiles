@@ -1,0 +1,51 @@
+{
+  "layer": "top",
+  "position": "top",
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["wireplumber", "backlight", "network", "battery", "custom/hostname"],
+
+  "hyprland/workspaces": {
+    "format": "{name}"
+  },
+  "clock": {
+    "format": "{:%H:%M}",
+    "tooltip-format": "{:%A, %d %B %Y}"
+  },
+  "wireplumber": {
+    "format": "Vol {volume}%",
+    "format-muted": "Vol muted",
+    "tooltip-format": "{node_name}\nScroll to adjust · Click to mute or unmute",
+    "scroll-step": 5,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+  "backlight": {
+    "format": "Bright {percent}%",
+    "tooltip-format": "Screen brightness: {percent}%\nScroll to adjust",
+    "scroll-step": 5,
+    "min-brightness": 1
+  },
+  "network": {
+    "format-wifi": "Wi-Fi {signalStrength}%",
+    "format-ethernet": "Wired",
+    "format-disconnected": "Offline",
+    "tooltip-format-wifi": "{essid} · {signalStrength}%\nClick to manage connections",
+    "tooltip-format-ethernet": "Wired connection\nClick to manage connections",
+    "tooltip-format-disconnected": "Offline\nClick to manage connections",
+    "on-click": "ghostty -e nmtui"
+  },
+  "battery": {
+    "states": {
+      "warning": 25,
+      "critical": 10
+    },
+    "format": "Battery {capacity}%",
+    "format-charging": "Charging {capacity}%",
+    "format-plugged": "Plugged in {capacity}%"
+  },
+  "custom/hostname": {
+    "exec": "uname -n",
+    "interval": "once",
+    "tooltip": false
+  }
+}

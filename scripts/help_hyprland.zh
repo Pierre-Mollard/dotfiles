@@ -1,0 +1,45 @@
+#!/usr/bin/env zsh
+
+heading=''
+key_color=''
+reset=''
+if [[ -t 1 && $TERM != dumb && -z $NO_COLOR ]]; then
+    heading=$'\e[1;36m'
+    key_color=$'\e[33m'
+    reset=$'\e[0m'
+fi
+
+section() {
+    printf '\n%s%s%s\n' "$heading" "$1" "$reset"
+}
+
+shortcut() {
+    printf '  %s%-31s%s %s\n' "$key_color" "$1" "$reset" "$2"
+}
+
+printf '%sHyprland shortcuts%s\nSuper = Windows key\n' "$heading" "$reset"
+
+section 'Windows and session'
+shortcut 'Super + Q'                'Open Ghostty'
+shortcut 'Super + C'                'Close focused window'
+shortcut 'Super + V'                'Toggle floating for focused window'
+shortcut 'Super + Arrow keys'       'Focus a window in that direction'
+shortcut 'Super + Left mouse drag'  'Move a window'
+shortcut 'Super + Right mouse drag' 'Resize a window'
+shortcut 'Super + M'                'Exit Hyprland (log out)'
+
+section 'Workspaces'
+shortcut 'Super + 1-9, 0'         'Switch to workspace 1–10 (0 = 10)'
+shortcut 'Super + Shift + 1-9, 0' 'Move focused window to workspace 1–10'
+
+section 'Laptop keys'
+shortcut 'Volume up / down'     'Raise / lower speaker volume'
+shortcut 'Speaker mute'         'Toggle speaker mute'
+shortcut 'Mic mute'             'Toggle microphone mute'
+shortcut 'Brightness up / down' 'Raise / lower screen brightness'
+
+section 'Waybar'
+shortcut 'Scroll over Vol'               'Adjust speaker volume'
+shortcut 'Click Vol'                     'Toggle speaker mute'
+shortcut 'Scroll over Bright'            'Adjust screen brightness'
+shortcut 'Click Wi-Fi / Wired / Offline' 'Open the network manager (nmtui)'

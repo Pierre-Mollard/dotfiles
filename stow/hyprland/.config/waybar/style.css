@@ -1,0 +1,38 @@
+window#waybar {
+  background: #1a1b26;
+  color: #c0caf5;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 13px;
+}
+
+#workspaces button {
+  color: #a9b1d6;
+  padding: 0 8px;
+}
+
+#workspaces button.active {
+  background: #292e42;
+  color: #2ac3de;
+}
+
+#clock,
+#wireplumber,
+#backlight,
+#network,
+#battery,
+#custom-hostname {
+  padding: 0 8px;
+}
+
+#battery.warning {
+  color: #e0af68;
+}
+
+#wireplumber.muted {
+  color: #a9b1d6;
+}
+
+#battery.critical,
+#network.disconnected {
+  color: #f7768e;
+}
