@@ -3,5 +3,6 @@
   "theme": {
     "name": "tokyonight-custom",
     "mode": "dark"
-  }
+  },
+  "plugins": ["./plugins/bell"]
 }

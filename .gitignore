@@ -6,6 +6,22 @@ stow/claude/.claude/settings.local.json
 stow/claude/.claude/.credentials.json
 /.claude/
 
+# Pi writes machine-local state into settings.json; track only the template.
+/stow/pi/.pi/agent/*
+!/stow/pi/.pi/agent/settings.example.json
+!/stow/pi/.pi/agent/themes/
+/stow/pi/.pi/agent/themes/*
+!/stow/pi/.pi/agent/themes/tokyonight-night.json
+!/stow/pi/.pi/agent/extensions/
+/stow/pi/.pi/agent/extensions/*
+!/stow/pi/.pi/agent/extensions/attention-bell.ts
+!/stow/pi/.pi/agent/extensions/compact-footer.ts
+!/stow/pi/.pi/agent/extensions/model-presets.ts
+!/stow/pi/.pi/agent/extensions/shell-confirm.ts
+!/stow/pi/.pi/agent/extensions/tab-status.ts
+!/stow/pi/.pi/agent/extensions/repo-diff.ts
+!/stow/pi/.pi/agent/extensions/prompt-panel.ts
+
 # external-wsl contains local symlink to windows for easier access
 # windows is not looking in WSL dir space otherwize it would be slow
 external-wsl/

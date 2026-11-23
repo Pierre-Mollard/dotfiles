@@ -31,38 +31,8 @@ if command -v vivid >/dev/null 2>&1; then
 fi
 
 
-## UNUSED: this could change a color retro-active!
-## OSC4 200 set to orange 
-# print -n '\e]4;200;#2ac3de\a'
-## OSC4 200 set to orange 
-# print -n '\e]4;200;#ff9e64\a'
-
-# Master starshp configuration file
-_STARSHIP_BASE="$HOME/.config/starship/starship.toml"
-
-# Store the runtime variant in RAM
-_STARSHIP_RAM="/dev/shm/starship-$UID"
-[[ -d /dev/shm ]] || _STARSHIP_RAM="/tmp/starship-$UID"
-mkdir -p "$_STARSHIP_RAM"
-_STARSHIP_ORANGE="$_STARSHIP_RAM/orange.toml"
-
-# Cache the cyan variant once on shell startup (nt: newer than)
-if [[ ! -f "$_STARSHIP_ORANGE" || "$_STARSHIP_BASE" -nt "$_STARSHIP_ORANGE" ]]; then
-  sed 's/palette = "tokyo-night-cyan"/palette = "tokyo-night-orange"/' "$_STARSHIP_BASE" > "$_STARSHIP_ORANGE"
-fi
-
-# zsh hook to alternate every prompt
-typeset -g _PROMPT_TOGGLE=0
-function _toggle_starship_color() {
-  if (( _PROMPT_TOGGLE ^= 1 )); then
-    export STARSHIP_CONFIG="$_STARSHIP_BASE"
-  else
-    export STARSHIP_CONFIG="$_STARSHIP_ORANGE"
-  fi
-}
-
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd _toggle_starship_color
+# Use one fixed palette; no generated per-prompt configuration.
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 
 # Bind Up/Down arrows to search history matching the current typed prefix
 ## Load and register the prefix-search widgets
@@ -160,6 +130,7 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 [[ -f ~/.zkeys ]] && source ~/.zkeys
 
 eval "$(starship init zsh)"
+source "$HOME/.config/starship/prompt.zsh"
 
 # opencode
 export PATH=/home/pierre/.opencode/bin:$PATH

@@ -29,6 +29,49 @@ Using stow, all the package inside this directory will be symlink to HOME (~/).
 All dot-name will be converted to .name by stow using the --dotefiles argument.
 (not working so keeping .config)
 
+## Pi agent
+
+The `pi` Stow package links `~/.pi/agent/settings.json` and the Tokyo Night
+Night theme in `~/.pi/agent/themes/tokyonight-night.json`. Pi writes
+machine-local state into settings, so Git tracks `settings.example.json`
+with the shared defaults instead. Credentials, the model store, sessions,
+and the Pi installation stay outside the package.
+
+Extensions in `~/.pi/agent/extensions/` are loaded globally. Run `/reload`
+after installing or editing them:
+
+- **Attention bell:** emits BEL when Pi finishes a run or opens a blocking
+  extension prompt. Your terminal or multiplexer controls the alert.
+- **Tab status:** shows ready, working, or waiting for input in the terminal
+  title, where supported.
+- **Compact footer:** shows the Git branch, model, thinking level, and context
+  usage. Use `/compact-footer` to toggle back to Pi's default footer.
+- **Shell confirmation:** asks before common destructive Bash tool calls
+  such as `rm -rf`, `git reset --hard`, and `git push --force`. Matching calls
+  are blocked if confirmation isn't available. This is a heuristic guardrail,
+  not a sandbox; it doesn't cover manually typed shell commands.
+- **Model presets:** `/fast` selects `openai/gpt-5.4-mini` with low thinking;
+  `/deep` selects `openai/gpt-6.2-sol` with high thinking. These commands
+  change the current session, not the global defaults.
+- **Repository diff:** `/diff` opens a read-only picker for staged, unstaged,
+  and untracked changes. Use arrows or Page Up/Down to scroll, Left/Right to
+  pan, Escape to return to the file list, and `q` to close the preview.
+- **Prompt panel:** adds an OpenCode-inspired accent rail, a labeled prompt
+  border, and command hints while preserving Pi's editor keybindings.
+
+From the repo root, on a fresh setup with no existing Pi settings:
+
+```bash
+pi_config=stow/pi/.pi/agent
+cp -n "$pi_config/settings.example.json" "$pi_config/settings.json"
+stow --no-folding -d stow -t "$HOME" pi
+```
+
+If Pi already has a regular `~/.pi/agent/settings.json`, back it up outside
+this repo and copy it to `stow/pi/.pi/agent/settings.json` instead of using
+the template. Move the original out of the way before running Stow, then
+verify the linked file matches your backup.
+
 ## Ghostty on Arch Linux
 
 From the root of this repo:
