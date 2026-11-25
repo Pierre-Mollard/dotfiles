@@ -16,6 +16,37 @@ setopt HIST_IGNORE_SPACE         # Don't save commands starting with a space (fo
 setopt HIST_FIND_NO_DUPS         # Do not display duplicates during search
 setopt HIST_REDUCE_BLANKS        # Strip redundant whitespace
 
+# Keep unknown commands (e.g. test keystrokes) out of history.
+autoload -Uz add-zsh-hook
+_history_command_exists() {
+  local auto_cd_enabled=$options[autocd]
+  emulate -L zsh
+  local -a words
+  local word cmd
+  local assignment='^[A-Za-z_][A-Za-z0-9_]*='
+  words=("${(@z)1}")
+
+  for word in "${words[@]}"; do
+    # Skip leading assignments, as in FOO=bar git status.
+    [[ $word =~ $assignment ]] && continue
+    # Don't evaluate expansions or try to validate subshells/comments.
+    [[ $word == *'$'* || $word == *'`'* || $word == '(' || $word == '#'* ]] && return 0
+    cmd=${(Q)word}
+    whence -- "$cmd" >/dev/null 2>&1 && return 0
+    # AUTO_CD allows a directory name instead of a command.
+    if [[ $auto_cd_enabled == on ]]; then
+      [[ -d $cmd ]] && return 0
+      local dir
+      for dir in "${cdpath[@]}"; do
+        [[ -d $dir/$cmd ]] && return 0
+      done
+    fi
+    return 1
+  done
+  return 0
+}
+add-zsh-hook zshaddhistory _history_command_exists
+
 # Better directory navigation (type '..' instead of 'cd ..')
 setopt AUTO_CD
 # No annoying beeps
