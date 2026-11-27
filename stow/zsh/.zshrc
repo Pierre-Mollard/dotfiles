@@ -165,3 +165,4 @@ source "$HOME/.config/starship/prompt.zsh"
 
 # opencode
 export PATH=/home/pierre/.opencode/bin:$PATH
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
